@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Finalitika10.Views.PlanPages.AllPaymentsPage"
+             xmlns:models="clr-namespace:Finalitika10.Models"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels.PlanViewModels"
+             x:DataType="viewmodels:AllPaymentsViewModel"
+             Title="Все предстояющие платежи" BackgroundColor="White">
+    <Grid RowDefinitions="*, Auto">
+
+        <CollectionView Grid.Row="0" ItemsSource="{Binding Payments}">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="0,50,0,0">
+                    <Label Text="💳" FontSize="48" HorizontalOptions="Center"/>
+                    <Label Text="У вас нет предстоящих платежей" FontSize="16" TextColor="#7F8C8D" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:PaymentReminder">
+                    <Border Stroke="#E0E0E0" StrokeThickness="1" BackgroundColor="White" Padding="15" Margin="0,0,0,10">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AllPaymentsViewModel}}, Path=EditPaymentCommand}" CommandParameter="{Binding}"/>
+                        </Border.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="Auto, *, Auto, Auto" ColumnSpacing="15">
+                            <Border Grid.Column="0" BackgroundColor="#F4F6F8" WidthRequest="45" HeightRequest="45" Stroke="Transparent" VerticalOptions="Center">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10"/>
+                                </Border.StrokeShape>
+                                <Label Text="{Binding Icon}" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="16" TextColor="#2C3E50"/>
+                                <Label Text="{Binding DisplayDate}" FontSize="12" TextColor="#7F8C8D"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" HorizontalOptions="End" Spacing="2">
+                                <Label Text="{Binding Amount, StringFormat='-{0:N0} ₽'}" FontAttributes="Bold" TextColor="#E74C3C" HorizontalOptions="End"/>
+                                <Label Text="🔔 Вкл" FontSize="10" TextColor="#27AE60" HorizontalOptions="End" IsVisible="{Binding IsPushEnabled}"/>
+                            </VerticalStackLayout>
+
+                            <ImageButton Grid.Column="3" Source="delete_icon.png" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AllPaymentsViewModel}}, Path=DeletePaymentCommand}" CommandParameter="{Binding}" WidthRequest="20" HeightRequest="20" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Border Grid.Row="1" BackgroundColor="White" Padding="15" Stroke="Transparent">
+            <Border.Shadow>
+                <Shadow Brush="Black" Offset="0,-2" Radius="10" Opacity="0.05" />
+            </Border.Shadow>
+            <Button Text="+ Добавить платеж" Command="{Binding AddPaymentCommand}" BackgroundColor="#27AE60" TextColor="White" CornerRadius="12" HeightRequest="50" FontAttributes="Bold"/>
+        </Border>
+    </Grid>
+</ContentPage>

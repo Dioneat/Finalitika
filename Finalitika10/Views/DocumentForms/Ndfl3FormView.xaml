@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
+             x:DataType="viewmodels:DocumentEditorViewModel"
+             x:Class="Finalitika10.Views.DocumentForms.Ndfl3FormView">
+    <VerticalStackLayout Spacing="15">
+        <Label Text="Декларация 3-НДФЛ" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" />
+
+        <Label Text="Данные налогоплательщика:" FontAttributes="Bold" />
+        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="10">
+            <Entry Grid.Column="0" Text="{Binding NdflLastName}" Placeholder="Фамилия" />
+            <Entry Grid.Column="1" Text="{Binding NdflFirstName}" Placeholder="Имя" />
+            <Entry Grid.Column="2" Text="{Binding NdflPatronymic}" Placeholder="Отчество" />
+        </Grid>
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+            <Entry Grid.Column="0" Text="{Binding NdflInn}" Placeholder="Ваш ИНН (12 цифр)" Keyboard="Numeric" />
+            <Entry Grid.Column="1" Text="{Binding NdflPhone}" Placeholder="Телефон" Keyboard="Telephone" />
+        </Grid>
+
+        <Label Text="Налоговая инспекция:" FontAttributes="Bold" />
+        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="10">
+            <Entry Grid.Column="0" Text="{Binding NdflTaxCode}" Placeholder="Код (0100)" Keyboard="Numeric" />
+            <Entry Grid.Column="1" Text="{Binding NdflOktmo}" Placeholder="ОКТМО" Keyboard="Numeric" />
+            <Entry Grid.Column="2" Text="{Binding NdflYear}" Placeholder="Год (2025)" Keyboard="Numeric" />
+        </Grid>
+
+        <BoxView HeightRequest="1" Color="LightGray" Margin="0,5" />
+
+        <Label Text="Источник дохода (Работодатель):" FontAttributes="Bold" />
+        <Entry Text="{Binding NdflEmployerName}" Placeholder="Название (ООО Ромашка)" />
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+            <Entry Grid.Column="0" Text="{Binding NdflEmployerInn}" Placeholder="ИНН работодателя" Keyboard="Numeric" />
+            <Entry Grid.Column="1" Text="{Binding NdflEmployerKpp}" Placeholder="КПП работодателя" Keyboard="Numeric" />
+        </Grid>
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+            <Entry Grid.Column="0" Text="{Binding NdflIncome}" Placeholder="Сумма дохода" Keyboard="Numeric" />
+            <Entry Grid.Column="1" Text="{Binding NdflTaxWithheld}" Placeholder="Удержанный налог" Keyboard="Numeric" />
+        </Grid>
+
+        <BoxView HeightRequest="1" Color="LightGray" Margin="0,5" />
+
+        <Label Text="Социальные вычеты (расходы):" FontAttributes="Bold" />
+        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="10">
+            <Entry Grid.Column="0" Text="{Binding NdflEduExp}" Placeholder="Обучение" Keyboard="Numeric" />
+            <Entry Grid.Column="1" Text="{Binding NdflMedExp}" Placeholder="Лечение" Keyboard="Numeric" />
+            <Entry Grid.Column="2" Text="{Binding NdflFitExp}" Placeholder="Фитнес" Keyboard="Numeric" />
+        </Grid>
+
+        <BoxView HeightRequest="1" Color="LightGray" Margin="0,5" />
+
+        <Label Text="Возврат средств:" FontAttributes="Bold" />
+        <Entry Text="{Binding NdflRefundAmount}" Placeholder="Сумма к возврату" Keyboard="Numeric" />
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+            <Entry Grid.Column="0" Text="{Binding NdflBankBik}" Placeholder="БИК банка" Keyboard="Numeric" />
+            <Entry Grid.Column="1" Text="{Binding NdflBankAccount}" Placeholder="Номер счета" Keyboard="Numeric" />
+        </Grid>
+    </VerticalStackLayout>
+</ContentView>

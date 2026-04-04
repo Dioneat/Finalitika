@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
+             xmlns:models="clr-namespace:Finalitika10.Models"
+             x:DataType="viewmodels:AddCurrencyViewModel"
+             x:Class="Finalitika10.Views.AddCurrencyPage"
+             Title="Курсы валют" BackgroundColor="White">
+    <Grid RowDefinitions="Auto, *">
+        <SearchBar Grid.Row="0" 
+           Placeholder="Поиск валюты..." 
+           TextColor="Black"
+           Text="{Binding SearchQuery}" 
+           SearchCommand="{Binding SearchCurrenciesCommand}" />
+
+        <ActivityIndicator Grid.Row="1" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" HorizontalOptions="Center" VerticalOptions="Center"/>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding DisplayedCurrencies}" Margin="15,5,15,15">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:CurrencyItem">
+                    <ContentView Padding="0,5">
+
+                        <Border Padding="15" Stroke="#E0E0E0" StrokeThickness="1" BackgroundColor="White">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8" />
+                            </Border.StrokeShape>
+
+                            <Grid ColumnDefinitions="*, Auto">
+                                <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                    <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="16" TextColor="#2C3E50"/>
+                                    <Label Text="{Binding EngName}" FontSize="12" TextColor="#7F8C8D"/>
+                                </VerticalStackLayout>
+
+                                <Button Grid.Column="1" 
+                                        Text="Добавить" 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AddCurrencyViewModel}}, Path=AddCurrencyCommand}" 
+                                        CommandParameter="{Binding}" 
+                                        BackgroundColor="#27AE60" 
+                                        TextColor="White" 
+                                        CornerRadius="6" 
+                                        HeightRequest="35"/>
+                            </Grid>
+                        </Border>
+
+                    </ContentView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

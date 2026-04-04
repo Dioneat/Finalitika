@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
+             x:DataType="viewmodels:DocumentEditorViewModel"
+             xmlns:forms="clr-namespace:Finalitika10.Views.DocumentForms"
+             x:Class="Finalitika10.Views.DocumentEditorPage"
+             Title="Редактор">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <ScrollView>
+                <VerticalStackLayout Padding="20" Spacing="15">
+
+                    <forms:ResignationFormView IsVisible="{Binding IsResignation}" />
+                    <forms:LoanFormView IsVisible="{Binding IsLoan}" />
+                    <forms:MoneyReceiptFormView IsVisible="{Binding IsReceipt}" />
+                    <forms:ClaimStatementFormView IsVisible="{Binding IsClaim}" />
+                    <forms:PaidLeaveFormView IsVisible="{Binding IsPaidLeave}" />
+                    <forms:UnpaidLeaveFormView IsVisible="{Binding IsUnpaidLeave}" />
+                    <forms:Ndfl3FormView IsVisible="{Binding IsNdfl3}" />
+
+                    <Button Text="Создать" 
+                    Command="{Binding CreateDocumentCommand}" 
+                    Margin="0, 30, 0, 0" 
+                    TextColor="White">
+                        <Button.Triggers>
+                            <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                                <Setter Property="BackgroundColor" Value="Gray" />
+                            </Trigger>
+                            <Trigger TargetType="Button" Property="IsEnabled" Value="True">
+                                <Setter Property="BackgroundColor" Value="#388E3C" />
+                            </Trigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <ActivityIndicator IsRunning="{Binding IsGenerating}" 
+                               IsVisible="{Binding IsGenerating}"
+                               Color="#388E3C" 
+                               Margin="0, 15, 0, 0"
+                               HorizontalOptions="Center" />
+
+                </VerticalStackLayout>
+            </ScrollView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

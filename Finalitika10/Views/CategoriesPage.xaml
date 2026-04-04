@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Finalitika10.Models"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels.AnalysisViewModels"
+             x:DataType="viewmodels:CategoriesViewModel"
+             x:Class="Finalitika10.Views.CategoriesPage"
+             Title="CategoriesPage">
+    <Grid RowDefinitions="*, Auto">
+
+        <CollectionView Grid.Row="0" ItemsSource="{Binding Categories}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:TransactionCategory">
+                    <Border BackgroundColor="White" Padding="15" Margin="0,0,0,10" Stroke="Transparent">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="16"/>
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+
+                            <Border Grid.Column="0" BackgroundColor="{Binding ColorHex}" WidthRequest="50" HeightRequest="50" Stroke="Transparent" Margin="0,0,15,0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12"/>
+                                </Border.StrokeShape>
+                                <Label Text="{Binding Icon}" FontSize="24" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
+                                <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" TextColor="#2C3E50"/>
+                                <Label Text="{Binding Type}" FontSize="12" TextColor="#7F8C8D"/>
+                            </VerticalStackLayout>
+
+                            <ImageButton Grid.Column="2" Source="edit_icon.png" WidthRequest="20" HeightRequest="20" BackgroundColor="Transparent" Margin="0,0,15,0"
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoriesViewModel}}, Path=EditCategoryCommand}" 
+                                         CommandParameter="{Binding}"/>
+
+                            <Label Grid.Column="3" Text="✖" FontSize="16" TextColor="#E74C3C" VerticalOptions="Center" FontAttributes="Bold" IsVisible="{Binding IsNotDefault}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoriesViewModel}}, Path=DeleteCategoryCommand}" CommandParameter="{Binding}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Border Grid.Row="1" BackgroundColor="White" Padding="20" Stroke="Transparent">
+            <Border.Shadow>
+                <Shadow Brush="Black" Offset="0,-2" Radius="10" Opacity="0.05" />
+            </Border.Shadow>
+            <Button Text="+ Добавить категорию" Command="{Binding AddCategoryCommand}" BackgroundColor="#2980B9" TextColor="White" CornerRadius="12" HeightRequest="50" FontAttributes="Bold"/>
+        </Border>
+
+    </Grid>
+</ContentPage>

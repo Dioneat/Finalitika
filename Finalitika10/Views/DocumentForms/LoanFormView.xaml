@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
+             x:DataType="viewmodels:DocumentEditorViewModel"
+             x:Class="Finalitika10.Views.DocumentForms.LoanFormView">
+    <VerticalStackLayout Spacing="15">
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+            <VerticalStackLayout Grid.Column="0">
+                <Label Text="Город:" />
+                <Entry Text="{Binding City}" Placeholder="г. Москва" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1">
+                <Label Text="Дата договора:" />
+                <Entry Text="{Binding AgreementDate}" Placeholder="22.03.2025" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <Label Text="ФИО Заимодавца (дает деньги):" FontAttributes="Bold" />
+        <Entry Text="{Binding LenderName}" Placeholder="Макеев Артем Олегович" />
+
+        <Label Text="ФИО Заемщика (берет деньги):" FontAttributes="Bold" />
+        <Entry Text="{Binding BorrowerName}" Placeholder="Мохов Валентин Викторович" />
+
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+            <VerticalStackLayout Grid.Column="0">
+                <Label Text="Сумма займа:" />
+                <Entry Text="{Binding LoanAmount}" Placeholder="400 000 ₽" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1">
+                <Label Text="Пени за просрочку:" />
+                <Entry Text="{Binding PenaltyRate}" Placeholder="1%" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+            <VerticalStackLayout Grid.Column="0">
+                <Label Text="Дата передачи до:" />
+                <Entry Text="{Binding TransferDate}" Placeholder="28.03.2025" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1">
+                <Label Text="Дата возврата до:" />
+                <Entry Text="{Binding ReturnDate}" Placeholder="28.03.2026" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <Label Text="Способ передачи денег:" />
+        <Picker SelectedItem="{Binding TransferMethod}" Title="Выберите способ">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>наличными</x:String>
+                    <x:String>безналичным переводом</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+
+        <Label Text="Реквизиты Заимодавца (Паспорт, Адрес, ИНН):" />
+        <Editor Text="{Binding LenderRequisites}" AutoSize="TextChanges" Placeholder="Вставьте реквизиты..." />
+
+        <Label Text="Реквизиты Заемщика (Паспорт, Адрес, ИНН):" />
+        <Editor Text="{Binding BorrowerRequisites}" AutoSize="TextChanges" Placeholder="Вставьте реквизиты..." />
+    </VerticalStackLayout>
+</ContentView>

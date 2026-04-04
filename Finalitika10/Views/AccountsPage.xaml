@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Finalitika10.Views.AccountsPage"
+             xmlns:models="clr-namespace:Finalitika10.Models"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels.AnalysisViewModels"
+             x:DataType="viewmodels:AccountsViewModel"
+             Title="AccountsPage">
+
+    <Grid RowDefinitions="Auto, *, Auto" BackgroundColor="#F4F6F8">
+
+        <Border Grid.Row="0" BackgroundColor="#2C3E50" Padding="20,30" Stroke="Transparent" Margin="0,0,0,15">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0,0,24,24"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout HorizontalOptions="Center" Spacing="5">
+                <Label Text="Общий баланс" FontSize="14" TextColor="#BDC3C7" HorizontalOptions="Center"/>
+                <Label Text="{Binding TotalBalance, StringFormat='{0:N0} ₽'}" FontSize="36" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Border>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Accounts}" Spacing="15" Padding="20,5,20,20">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:BankAccount">
+                        <Border BackgroundColor="White" Padding="15" Stroke="Transparent">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="16"/>
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="Auto, *, Auto, Auto" VerticalOptions="Center">
+
+                                <Border Grid.Column="0" BackgroundColor="{Binding ColorHex}" WidthRequest="50" HeightRequest="50" Stroke="Transparent" Margin="0,0,15,0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12"/>
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding Icon}" FontSize="24" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" TextColor="#2C3E50"/>
+                                    <Label Text="{Binding Balance, StringFormat='{0:N0} ₽'}" FontSize="14" TextColor="#7F8C8D"/>
+                                </VerticalStackLayout>
+
+                                <ImageButton Grid.Column="2" Source="edit_icon.png" WidthRequest="44" HeightRequest="44" Padding="12" BackgroundColor="Transparent" Margin="0,0,5,0"
+                                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AccountsViewModel}}, Path=EditAccountCommand}" 
+                                             CommandParameter="{Binding}"/>
+
+                                <Label Grid.Column="3" Text="✖" FontSize="18" TextColor="#E74C3C" VerticalOptions="Center" FontAttributes="Bold" Padding="10">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AccountsViewModel}}, Path=DeleteAccountCommand}" CommandParameter="{Binding}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Border Grid.Row="2" BackgroundColor="White" Padding="20" Stroke="Transparent">
+            <Border.Shadow>
+                <Shadow Brush="Black" Offset="0,-2" Radius="10" Opacity="0.05" />
+            </Border.Shadow>
+            <Button Text="+ Добавить счет" Command="{Binding AddAccountCommand}" BackgroundColor="#27AE60" TextColor="White" CornerRadius="12" HeightRequest="50" FontAttributes="Bold"/>
+        </Border>
+
+    </Grid>
+</ContentPage>

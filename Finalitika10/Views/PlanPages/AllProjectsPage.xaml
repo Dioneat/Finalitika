@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Finalitika10.Views.PlanPages.AllProjectsPage"
+             xmlns:models="clr-namespace:Finalitika10.Models"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels.PlanViewModels"
+             x:DataType="viewmodels:AllProjectsViewModel"
+             Title="Все проекты" BackgroundColor="White">
+    <Grid RowDefinitions="*, Auto">
+
+        <CollectionView Grid.Row="0" ItemsSource="{Binding Projects}">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="0,50,0,0">
+                    <Label Text="🎯" FontSize="48" HorizontalOptions="Center"/>
+                    <Label Text="У вас пока нет активных целей" FontSize="16" TextColor="#7F8C8D" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:FinancialProject">
+                    <Border Stroke="Transparent" BackgroundColor="{Binding BackgroundColor}" HeightRequest="160" Padding="15" Margin="0,0,0,15">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="16" />
+                        </Border.StrokeShape>
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AllProjectsViewModel}}, Path=OpenProjectCommand}" CommandParameter="{Binding}"/>
+                        </Border.GestureRecognizers>
+
+                        <Grid RowDefinitions="Auto, *, Auto, Auto">
+                            <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto">
+                                <Label Grid.Column="0" Text="{Binding Emoji}" FontSize="24"/>
+
+                                <Border Grid.Column="1" BackgroundColor="White" Opacity="0.8" Padding="8,2" Stroke="Transparent" HorizontalOptions="End" VerticalOptions="Start" IsVisible="{Binding HasMultipleParticipants}">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding ParticipantsCount, StringFormat='👥 {0}'}" FontSize="12" FontAttributes="Bold" TextColor="#2C3E50"/>
+                                </Border>
+
+                                <Label Grid.Column="2" Text="✖" FontSize="18" TextColor="White" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Start" Margin="10,0,0,0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AllProjectsViewModel}}, Path=DeleteProjectCommand}" CommandParameter="{Binding}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Grid>
+
+                            <Label Grid.Row="1" Text="{Binding Title}" FontSize="18" FontAttributes="Bold" TextColor="White" VerticalOptions="Center"/>
+                            <ProgressBar Grid.Row="2" Progress="{Binding Progress}" ProgressColor="White" BackgroundColor="#80FFFFFF" HeightRequest="6" Margin="0,0,0,8"/>
+
+                            <Grid Grid.Row="3" ColumnDefinitions="Auto, *">
+                                <Label Grid.Column="0" Text="{Binding CollectedAmount, StringFormat='{0:N0} ₽'}" FontSize="12" FontAttributes="Bold" TextColor="White"/>
+                                <Label Grid.Column="1" Text="{Binding TargetAmount, StringFormat='из {0:N0}'}" FontSize="12" TextColor="#D5DBDB" HorizontalOptions="End"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Border Grid.Row="1" BackgroundColor="White" Padding="15" Stroke="Transparent">
+            <Border.Shadow>
+                <Shadow Brush="Black" Offset="0,-2" Radius="10" Opacity="0.05" />
+            </Border.Shadow>
+            <Button Text="+ Создать проект" Command="{Binding AddNewProjectCommand}" BackgroundColor="#3498DB" TextColor="White" CornerRadius="12" HeightRequest="50" FontAttributes="Bold"/>
+        </Border>
+
+    </Grid>
+</ContentPage>

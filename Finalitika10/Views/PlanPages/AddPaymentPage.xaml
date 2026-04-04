@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Finalitika10.Views.PlanPages.AddPaymentPage"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels.PlanViewModels"
+             x:DataType="viewmodels:AddPaymentViewModel"
+             Title="Добавить напоминание">
+    <Border BackgroundColor="White" VerticalOptions="End" Padding="20,20,20,40" Margin="0,50,0,0">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="24,24,0,0" />
+        </Border.StrokeShape>
+
+        <VerticalStackLayout Spacing="20">
+            <Grid ColumnDefinitions="*, Auto">
+                <VerticalStackLayout>
+                    <Label Text="Новый платеж" FontSize="20" FontAttributes="Bold" TextColor="#2C3E50"/>
+                    <Label Text="Настройте напоминание" FontSize="12" TextColor="#7F8C8D"/>
+                </VerticalStackLayout>
+                <ImageButton Grid.Column="1" Source="close_icon.png" Command="{Binding CloseCommand}" WidthRequest="30" HeightRequest="30" BackgroundColor="Transparent"/>
+            </Grid>
+
+            <VerticalStackLayout Spacing="15">
+                <Entry Placeholder="Название (напр. Подписка Яндекс)" Text="{Binding Reminder.Title}" TextColor="Black" BackgroundColor="#F4F6F8"/>
+                <Entry Placeholder="Описание или комментарий" Text="{Binding Reminder.Description}" TextColor="Black" BackgroundColor="#F4F6F8"/>
+
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <VerticalStackLayout Grid.Column="0" Spacing="5">
+                        <Label Text="Сумма (₽):" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Keyboard="Numeric" TextColor="Black" Text="{Binding Reminder.Amount}" BackgroundColor="#F4F6F8"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                        <Label Text="Периодичность:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Picker ItemsSource="{Binding ReminderTypes}" TextColor="Black" SelectedItem="{Binding Reminder.ReminderType}" BackgroundColor="#F4F6F8"/>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Border BackgroundColor="#E8F8F5" Stroke="Transparent" Padding="15">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+
+                        <VerticalStackLayout Spacing="5" IsVisible="False">
+                            <VerticalStackLayout.Triggers>
+                                <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding Reminder.ReminderType}" Value="Ежемесячный">
+                                    <Setter Property="IsVisible" Value="True"/>
+                                </DataTrigger>
+                            </VerticalStackLayout.Triggers>
+                            <Label Text="День списания (число месяца):" FontSize="12" TextColor="#16A085" FontAttributes="Bold"/>
+                            <Picker TextColor="Black" ItemsSource="{Binding DaysOfMonth}" SelectedItem="{Binding Reminder.MonthlyDay}" BackgroundColor="White"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5" IsVisible="False">
+                            <VerticalStackLayout.Triggers>
+                                <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding Reminder.ReminderType}" Value="Разовый">
+                                    <Setter Property="IsVisible" Value="True"/>
+                                </DataTrigger>
+                            </VerticalStackLayout.Triggers>
+                            <Label Text="Точная дата платежа:" FontSize="12" TextColor="#16A085" FontAttributes="Bold"/>
+                            <DatePicker TextColor="Black" Date="{Binding Reminder.ExactDate}" BackgroundColor="White"/>
+                        </VerticalStackLayout>
+
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center" Margin="0,10,0,0">
+                            <Switch IsToggled="{Binding Reminder.IsPushEnabled}" OnColor="#27AE60"/>
+                            <Label Text="Уведомить Push-сообщением" VerticalOptions="Center" TextColor="#2C3E50"/>
+                        </HorizontalStackLayout>
+
+                        <VerticalStackLayout Spacing="5" IsVisible="{Binding Reminder.IsPushEnabled}" Margin="0,5,0,0">
+                            <Label Text="Время срабатывания:" FontSize="12" TextColor="#7F8C8D"/>
+                            <TimePicker Time="{Binding Reminder.NotifyTime}"  BackgroundColor="White" TextColor="#2C3E50"/>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+
+            <Button Text="Сохранить напоминание" Command="{Binding SaveCommand}" BackgroundColor="#27AE60" TextColor="White" CornerRadius="12" HeightRequest="50" FontAttributes="Bold"/>
+        </VerticalStackLayout>
+    </Border>
+</ContentPage>

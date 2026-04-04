@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Finalitika10.Views.PdfPreviewPage"
+             Title="PdfPreviewPage">
+    <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center">
+
+        <Label Text="Ваш документ успешно сформирован!" 
+               FontSize="22" 
+               HorizontalOptions="Center" 
+               HorizontalTextAlignment="Center"/>
+
+        <Button Text="Скачать PDF" 
+                Command="{Binding DownloadCommand}" 
+                CommandParameter="Pdf" 
+                BackgroundColor="#D32F2F" TextColor="White" />
+
+        <Button Text="Скачать XML" 
+                Command="{Binding DownloadCommand}" 
+                CommandParameter="Xml" 
+                BackgroundColor="#388E3C" TextColor="White" />
+
+    </VerticalStackLayout>
+</ContentPage>

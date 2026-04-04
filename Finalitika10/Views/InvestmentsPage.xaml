@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
+             xmlns:models="clr-namespace:Finalitika10.Models"
+             x:DataType="viewmodels:InvestmentsViewModel"
+             x:Class="Finalitika10.InvestmentsPage"
+             BackgroundColor="#F6F6F6">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <Border BackgroundColor="White" Stroke="Transparent" Padding="20">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Opacity="0.08" Offset="0,3" Radius="10" />
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Общая стоимость" FontSize="14" TextColor="#7F8C8D" HorizontalOptions="Center"/>
+                    <Label Text="{Binding TotalValue}" FontSize="34" FontAttributes="Bold" TextColor="#2C3E50" HorizontalOptions="Center"/>
+
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                        <Label Text="За всё время:" FontSize="13" TextColor="#7F8C8D" VerticalOptions="Center"/>
+
+                        <Border BackgroundColor="#E8F8F5" Stroke="Transparent" Padding="6,2">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="6" />
+                            </Border.StrokeShape>
+
+                            <Label Text="{Binding AllTimeYield}"
+                                   TextColor="{Binding AllTimeYieldColor}"
+                                   FontAttributes="Bold"
+                                   FontSize="13"/>
+                        </Border>
+                    </HorizontalStackLayout>
+
+                    <BoxView HeightRequest="1" Color="#EEEEEE" Margin="0,15"/>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                        <VerticalStackLayout Grid.Column="0">
+                            <Label Text="Доход за день" FontSize="12" TextColor="#7F8C8D"/>
+                            <Label Text="{Binding DailyYield}" FontSize="16" FontAttributes="Bold" TextColor="#2C3E50"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Годовая доходность" FontSize="12" TextColor="#7F8C8D"/>
+                            <Label Text="{Binding AnnualYield}" FontSize="16" FontAttributes="Bold" TextColor="#2C3E50"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding SmartNotifications}" Spacing="10">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="viewmodels:SmartNotification">
+                        <Border BackgroundColor="#FFF9C4" Stroke="#FFF176" StrokeThickness="1" Padding="15">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15" VerticalOptions="Center">
+                                <Label Grid.Column="0" Text="{Binding Icon}" FontSize="24" VerticalOptions="Center"/>
+
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="{Binding Title}" FontAttributes="Bold" TextColor="#F57F17" FontSize="14"/>
+                                    <Label Text="{Binding Message}" TextColor="#7F8C8D" FontSize="12" LineBreakMode="WordWrap"/>
+                                </VerticalStackLayout>
+
+                                <Button Grid.Column="2"
+                                        Text="Смотреть"
+                                        IsVisible="{Binding HasAction}"
+                                        Command="{Binding ActionCommand}"
+                                        BackgroundColor="#F57F17"
+                                        TextColor="White"
+                                        HeightRequest="35"
+                                        CornerRadius="8"
+                                        FontSize="12"
+                                        Padding="10,0"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                <Border Grid.Column="0" BackgroundColor="White" Stroke="Transparent" Padding="15">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Opacity="0.08" Offset="0,3" Radius="10" />
+                    </Border.Shadow>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Настроение рынка" FontSize="13" TextColor="#7F8C8D"/>
+                        <Label Text="{Binding MarketMood}" FontAttributes="Bold" TextColor="{Binding MarketMoodColor}" FontSize="14" MaxLines="1" LineBreakMode="TailTruncation"/>
+                        <ProgressBar Progress="{Binding MarketMoodProgress}" ProgressColor="{Binding MarketMoodColor}" HeightRequest="6"/>
+                        <Label Text="{Binding MarketMoodDescription}" FontSize="11" TextColor="#7F8C8D"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Column="1" BackgroundColor="White" Stroke="Transparent" Padding="15">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Opacity="0.08" Offset="0,3" Radius="10" />
+                    </Border.Shadow>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Ключевая ставка" FontSize="13" TextColor="#7F8C8D"/>
+                        <Label Text="{Binding KeyRate}" FontAttributes="Bold" TextColor="#E74C3C" FontSize="18"/>
+                        <Label Text="Депозиты и облигации сверяйте отдельно" FontSize="11" TextColor="#7F8C8D"/>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <Border BackgroundColor="White" Stroke="Transparent" Padding="0,15" Margin="0,20,0,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Opacity="0.08" Offset="0,3" Radius="10" />
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="10">
+                    <HorizontalStackLayout Padding="20,0,20,0" Spacing="70">
+                        <Label Text="Курсы валют ЦБ" FontSize="18" FontAttributes="Bold" TextColor="#2C3E50" VerticalOptions="Center"/>
+                        <Label Text="Настроить >" FontSize="14" TextColor="#3498DB" VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoToCurrenciesCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </HorizontalStackLayout>
+
+                    <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Always" Padding="15,5,15,15">
+                        <HorizontalStackLayout BindableLayout.ItemsSource="{Binding TrackedCurrencies}" Spacing="15">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="models:CurrencyRate">
+                                    <Border BackgroundColor="#F8F9FA" Stroke="#E0E0E0" StrokeThickness="1" Padding="15" WidthRequest="140">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="12" />
+                                        </Border.StrokeShape>
+
+                                        <VerticalStackLayout Spacing="5">
+                                            <Label Text="{Binding CharCode}" FontAttributes="Bold" TextColor="#34495E" FontSize="16"/>
+                                            <Label Text="{Binding Name}" TextColor="#7F8C8D" FontSize="10" LineBreakMode="TailTruncation" MaxLines="1"/>
+                                            <Label Text="{Binding DisplayRate}" FontAttributes="Bold" TextColor="#2C3E50" FontSize="18" Margin="0,5,0,0"/>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </HorizontalStackLayout>
+                    </ScrollView>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border BackgroundColor="White" Stroke="Transparent" Padding="20">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Opacity="0.08" Offset="0,3" Radius="10" />
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Состав портфеля" FontSize="18" FontAttributes="Bold" TextColor="#2C3E50"/>
+
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding AssetAllocations}" Spacing="12">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:AssetCategory">
+                                <VerticalStackLayout Spacing="5">
+                                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
+                                        <BoxView Grid.Column="0" Color="{Binding Color}" WidthRequest="12" HeightRequest="12" CornerRadius="6" VerticalOptions="Center"/>
+                                        <Label Grid.Column="1" Text="{Binding Name}" FontAttributes="Bold" TextColor="#34495E" VerticalOptions="Center"/>
+                                        <Label Grid.Column="2" Text="{Binding DisplayPercent}" TextColor="#7F8C8D" VerticalOptions="Center"/>
+                                        <Label Grid.Column="3" Text="{Binding DisplayValue}" FontAttributes="Bold" TextColor="#2C3E50" VerticalOptions="Center"/>
+                                    </Grid>
+
+                                    <ProgressBar Progress="{Binding ProgressValue}" ProgressColor="{Binding Color}" HeightRequest="6"/>
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border BackgroundColor="White" Stroke="Transparent" Padding="0,15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Opacity="0.08" Offset="0,3" Radius="10" />
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="0">
+                    <Grid ColumnDefinitions="*,Auto" Padding="20,0,20,15">
+                        <Label Grid.Column="0" Text="Ваши активы" FontSize="18" FontAttributes="Bold" TextColor="#2C3E50" VerticalOptions="Center"/>
+
+                        <Label Grid.Column="1" Text="Все >" FontSize="14" TextColor="#3498DB" VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ShowAllAssetsCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding TopAssets}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:PositionData">
+                                <Grid ColumnDefinitions="*,Auto" Padding="20,10" BackgroundColor="Transparent">
+                                    <VerticalStackLayout Grid.Column="0">
+                                        <Label Text="{Binding Name}" FontAttributes="Bold" TextColor="#2C3E50"/>
+                                        <Label Text="{Binding InstrumentType}" FontSize="12" TextColor="#7F8C8D"/>
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Column="1" HorizontalOptions="End">
+                                        <Label Text="{Binding CurrentPrice, StringFormat='{0:N2} ₽'}" FontAttributes="Bold" HorizontalOptions="End"/>
+                                        <Label Text="{Binding Quantity}" FontSize="12" TextColor="#7F8C8D" HorizontalOptions="End"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                <Button Grid.Column="0"
+                        Text="📅 Календарь выплат"
+                        BackgroundColor="#F3E5F5"
+                        TextColor="#8E44AD"
+                        CornerRadius="12"
+                        HeightRequest="50"/>
+
+                <Button Grid.Column="1"
+                        Text="📄 Отчёт в PDF"
+                        Command="{Binding DownloadReportCommand}"
+                        BackgroundColor="#E8F6F3"
+                        TextColor="#16A085"
+                        CornerRadius="12"
+                        HeightRequest="50"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

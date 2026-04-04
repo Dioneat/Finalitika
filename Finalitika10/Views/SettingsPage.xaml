@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
+             x:Class="Finalitika10.SettingsPage"
+             x:DataType="viewmodels:SettingsViewModel"
+             Title="Настройки"
+             BackgroundColor="#F4F6F8">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <Label Text="БЕЗОПАСНОСТЬ"
+                   FontSize="12"
+                   TextColor="#7F8C8D"
+                   Margin="5,0,0,-10"
+                   FontAttributes="Bold"/>
+
+            <Border BackgroundColor="White" StrokeThickness="0" Padding="15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Вход по ПИН-коду"
+                                   FontSize="16"
+                                   TextColor="#2C3E50"
+                                   FontAttributes="Bold"/>
+                            <Label Text="Запрашивать код при входе"
+                                   FontSize="12"
+                                   TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+
+                        <Switch Grid.Column="1"
+                                OnColor="#27AE60"
+                                IsToggled="{Binding IsPinEnabled}"/>
+                    </Grid>
+
+                    <BoxView HeightRequest="1" Color="#F4F6F8"/>
+
+                    <Grid ColumnDefinitions="*,Auto"
+                          VerticalOptions="Center"
+                          Opacity="{Binding BiometricSectionOpacity}">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Вход по FaceID / TouchID"
+                                   FontSize="16"
+                                   TextColor="#2C3E50"
+                                   FontAttributes="Bold"/>
+                            <Label Text="Требует включённого ПИН-кода"
+                                   FontSize="12"
+                                   TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+
+                        <Switch Grid.Column="1"
+                                OnColor="#27AE60"
+                                IsEnabled="{Binding IsBiometricAvailable}"
+                                IsToggled="{Binding IsBiometricEnabled}"/>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="ИНТЕРФЕЙС"
+                   FontSize="12"
+                   TextColor="#7F8C8D"
+                   Margin="5,0,0,-10"
+                   FontAttributes="Bold"/>
+
+            <Border BackgroundColor="White" StrokeThickness="0" Padding="15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Раздел Документы"
+                                   FontSize="16"
+                                   TextColor="#2C3E50"
+                                   FontAttributes="Bold"/>
+                            <Label Text="Заменить 'Инвестиции' в нижнем меню"
+                                   FontSize="12"
+                                   TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+
+                        <Switch Grid.Column="1"
+                                OnColor="#3498DB"
+                                IsToggled="{Binding UseDocsTab}"/>
+                    </Grid>
+
+                    <BoxView HeightRequest="1" Color="#F4F6F8"/>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Режим невидимки 👻"
+                                   FontSize="16"
+                                   TextColor="#2C3E50"
+                                   FontAttributes="Bold"/>
+                            <Label Text="Скрывать балансы при запуске (*** ₽)"
+                                   FontSize="12"
+                                   TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+
+                        <Switch Grid.Column="1"
+                                OnColor="#3498DB"
+                                IsToggled="{Binding PrivacyMode}"/>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="ИНТЕГРАЦИИ"
+                   FontSize="12"
+                   TextColor="#7F8C8D"
+                   Margin="5,0,0,-10"
+                   FontAttributes="Bold"/>
+
+            <Border BackgroundColor="White" StrokeThickness="0" Padding="15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Tinkoff API Токен"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#2C3E50"/>
+
+                    <Label Text="Ваш токен надёжно шифруется. Мы никуда его не передаём."
+                           FontSize="12"
+                           TextColor="#7F8C8D"/>
+
+                    <Entry Text="{Binding Token}"
+                           BackgroundColor="#F4F6F8"
+                           TextColor="Black"
+                           Placeholder="t.xxxxx..."
+                           IsPassword="True"/>
+
+                    <Button Text="Сохранить токен"
+                            Command="{Binding SaveTokenCommand}"
+                            BackgroundColor="#27AE60"
+                            TextColor="White"
+                            CornerRadius="8"
+                            HeightRequest="45"/>
+                </VerticalStackLayout>
+            </Border>
+            <Label Text="О ПРИЛОЖЕНИИ"
+       FontSize="12"
+       TextColor="#7F8C8D"
+       Margin="5,0,0,-10"
+       FontAttributes="Bold"/>
+
+            <Border BackgroundColor="White" StrokeThickness="0" Padding="15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+
+                <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                    <VerticalStackLayout Grid.Column="0" Spacing="2">
+                        <Label Text="Версия приложения"
+                   FontSize="16"
+                   TextColor="#2C3E50"
+                   FontAttributes="Bold"/>
+                        <Label Text="Текущая установленная сборка"
+                   FontSize="12"
+                   TextColor="#7F8C8D"/>
+                    </VerticalStackLayout>
+
+                    <Label Grid.Column="1"
+               Text="{Binding AppVersion}"
+               FontSize="14"
+               TextColor="#7F8C8D"
+               VerticalOptions="Center"/>
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

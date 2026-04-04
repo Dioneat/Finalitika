@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels.PlanViewModels"
+             xmlns:converters="clr-namespace:Finalitika10.Converters"
+             x:DataType="viewmodels:AddProjectViewModel"
+             x:Class="Finalitika10.Views.PlanPages.AddProjectPage"
+             Title="Добавить проект"
+             BackgroundColor="Transparent">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:EnumDisplayNameConverter x:Key="EnumDisplayNameConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Border BackgroundColor="White"
+            VerticalOptions="End"
+            Padding="20,20,20,40"
+            Margin="0,50,0,0"
+            Stroke="Transparent">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="24,24,0,0" />
+        </Border.StrokeShape>
+
+        <VerticalStackLayout Spacing="20">
+            <Grid ColumnDefinitions="*, Auto">
+                <VerticalStackLayout>
+                    <Label Text="Новый проект"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#2C3E50" />
+                    <Label Text="Настройте параметры сбора"
+                           FontSize="12"
+                           TextColor="#7F8C8D" />
+                </VerticalStackLayout>
+
+                <ImageButton Grid.Column="1"
+                             Source="close_icon.png"
+                             Command="{Binding CloseCommand}"
+                             WidthRequest="30"
+                             HeightRequest="30"
+                             BackgroundColor="Transparent" />
+            </Grid>
+
+            <VerticalStackLayout Spacing="15">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                    <Entry Grid.Column="0"
+                           Text="{Binding Emoji}"
+                           Placeholder="🎯"
+                           WidthRequest="56"
+                           HorizontalTextAlignment="Center"
+                           BackgroundColor="#F4F6F8"
+                           MaxLength="2" />
+
+                    <Entry Grid.Column="1"
+                           Text="{Binding Title}"
+                           Placeholder="Название (например, Горный поход)"
+                           BackgroundColor="#F4F6F8" />
+                </Grid>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Формат проекта:"
+                           FontSize="12"
+                           TextColor="#7F8C8D" />
+
+                    <Picker ItemsSource="{Binding ProjectTypes}"
+                            SelectedItem="{Binding SelectedProjectType}"
+                            ItemDisplayBinding="{Binding Converter={StaticResource EnumDisplayNameConverter}}"
+                            BackgroundColor="#F4F6F8"
+                            TextColor="#2C3E50" />
+
+                    <Label Text="Сплит = делим расходы с друзьями. Личная цель = обычная копилка."
+                           FontSize="10"
+                           TextColor="#BDC3C7" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Как считаем общую цель?"
+                           FontSize="12"
+                           TextColor="#7F8C8D" />
+
+                    <Picker ItemsSource="{Binding CalcTypes}"
+                            SelectedItem="{Binding SelectedCalcType}"
+                            ItemDisplayBinding="{Binding Converter={StaticResource EnumDisplayNameConverter}}"
+                            BackgroundColor="#F4F6F8"
+                            TextColor="#2C3E50" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="5"
+                                     IsVisible="{Binding IsFixedAmount}">
+                    <Label Text="Сумма цели (₽):"
+                           FontSize="12"
+                           TextColor="#7F8C8D" />
+
+                    <Entry Text="{Binding TargetAmount}"
+                           Keyboard="Numeric"
+                           BackgroundColor="#E8F8F5"
+                           TextColor="#16A085"
+                           FontAttributes="Bold" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <Button Text="Создать проект"
+                    Command="{Binding SaveCommand}"
+                    BackgroundColor="#3498DB"
+                    TextColor="White"
+                    CornerRadius="12"
+                    HeightRequest="50"
+                    FontAttributes="Bold"
+                    Margin="0,10,0,0" />
+        </VerticalStackLayout>
+    </Border>
+</ContentPage>

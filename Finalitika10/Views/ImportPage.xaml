@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Finalitika10.Services.Import"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels.AnalysisViewModels"
+             x:DataType="viewmodels:ImportViewModel"
+             x:Class="Finalitika10.Views.ImportPage"
+             Title="Импорт выписки" BackgroundColor="White">
+    <Grid RowDefinitions="Auto, *, Auto">
+
+        <Border Grid.Row="0" BackgroundColor="White" Padding="20" Margin="0,0,0,10" Stroke="Transparent">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0,0,24,24"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="15">
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Счет зачисления/списания:" FontSize="12" TextColor="#7F8C8D"/>
+                    <Picker ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount}" ItemDisplayBinding="{Binding Name}" BackgroundColor="#F4F6F8"/>
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <VerticalStackLayout Grid.Column="0" Spacing="5">
+                        <Label Text="Банк:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Picker ItemsSource="{Binding Banks}" SelectedItem="{Binding SelectedBank}" BackgroundColor="#F4F6F8"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                        <Label Text="Формат:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Picker ItemsSource="{Binding Formats}" SelectedItem="{Binding SelectedFormat}" BackgroundColor="#F4F6F8"/>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Button Text="Выбрать файл выписки" Command="{Binding PickFileAndParseCommand}" BackgroundColor="#3498DB" TextColor="White" CornerRadius="12" HeightRequest="50" FontAttributes="Bold" Margin="0,10,0,0">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="📄" FontFamily="MaterialIcons" Color="White" Size="20"/>
+                    </Button.ImageSource>
+                </Button>
+            </VerticalStackLayout>
+        </Border>
+
+        <Grid Grid.Row="1" IsVisible="{Binding IsPreviewVisible}">
+            <Grid RowDefinitions="Auto, *">
+                <Label Grid.Row="0" Text="{Binding SummaryText}" FontSize="14" FontAttributes="Bold" TextColor="#27AE60" Margin="20,10,20,5"/>
+
+                <CollectionView Grid.Row="1" ItemsSource="{Binding PreviewTransactions}" Margin="20,5,20,20">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ImportedTransaction">
+                            <Border BackgroundColor="White" Padding="15" Margin="0,0,0,10" Stroke="Transparent">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12"/>
+                                </Border.StrokeShape>
+
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsDuplicate}" Value="True">
+                                        <Setter Property="Opacity" Value="0.4" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+
+                                <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="15">
+
+                                    <Border Grid.Column="0" BackgroundColor="{Binding MappedCategoryColor, StringFormat='{0}1A'}" WidthRequest="40" HeightRequest="40" Stroke="Transparent" VerticalOptions="Center">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10"/>
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding MappedCategoryIcon}" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+
+                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                        <Label Text="{Binding Description}" FontSize="14" FontAttributes="Bold" TextColor="#2C3E50" MaxLines="1" LineBreakMode="TailTruncation"/>
+                                        <Label Text="{Binding MappedCategoryName}" FontSize="12" TextColor="{Binding MappedCategoryColor}" FontAttributes="Bold" MaxLines="1" LineBreakMode="TailTruncation"/>
+                                        <Label Text="{Binding Date, StringFormat='{0:dd.MM.yyyy HH:mm}'}" FontSize="10" TextColor="#BDC3C7"/>
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="5">
+                                        <Label Text="{Binding Amount, StringFormat='{0:N2} ₽'}" 
+                           TextColor="{Binding AmountColor}" 
+                           FontSize="14" 
+                           FontAttributes="Bold" 
+                           HorizontalOptions="End" />
+
+                                        <Border IsVisible="{Binding IsDuplicate}" BackgroundColor="#F5B041" Padding="6,2" Stroke="Transparent" HorizontalOptions="End">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="6"/>
+                                            </Border.StrokeShape>
+                                            <Label Text="Уже в базе" FontSize="9" FontAttributes="Bold" TextColor="White"/>
+                                        </Border>
+                                    </VerticalStackLayout>
+
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Grid>
+
+        <VerticalStackLayout Grid.Row="1" IsVisible="{Binding IsNotPreviewVisible}" VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+            <Label Text="📂" FontSize="64" HorizontalOptions="Center" Opacity="0.5"/>
+            <Label Text="Выберите файл для предпросмотра" FontSize="14" TextColor="#7F8C8D" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <Border Grid.Row="2" BackgroundColor="White" Padding="20" Stroke="Transparent" IsVisible="{Binding IsPreviewVisible}">
+            <Border.Shadow>
+                <Shadow Brush="Black" Offset="0,-2" Radius="10" Opacity="0.05" />
+            </Border.Shadow>
+            <Button Text="Сохранить в историю" Command="{Binding SaveImportCommand}" BackgroundColor="#27AE60" TextColor="White" CornerRadius="12" HeightRequest="50" FontAttributes="Bold"/>
+        </Border>
+
+    </Grid>
+</ContentPage>

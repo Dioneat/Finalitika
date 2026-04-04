@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
+             x:DataType="viewmodels:AllAssetsViewModel"
+             x:Class="Finalitika10.Views.AllAssetsPage"
+             Title="Все активы">
+    <Grid RowDefinitions="Auto, *">
+
+        <ScrollView Grid.Row="0" Orientation="Horizontal" HorizontalScrollBarVisibility="Always" Padding="15,10">
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Все" Command="{Binding FilterAssetsCommand}" CommandParameter="Все" HeightRequest="35" CornerRadius="17" BackgroundColor="#3498DB" TextColor="White"/>
+                <Button Text="Акции" Command="{Binding FilterAssetsCommand}" CommandParameter="Акции" HeightRequest="35" CornerRadius="17" BackgroundColor="#95A5A6" TextColor="White"/>
+                <Button Text="Облигации" Command="{Binding FilterAssetsCommand}" CommandParameter="Облигации" HeightRequest="35" CornerRadius="17" BackgroundColor="#95A5A6" TextColor="White"/>
+                <Button Text="Фонды" Command="{Binding FilterAssetsCommand}" CommandParameter="Фонды" HeightRequest="35" CornerRadius="17" BackgroundColor="#95A5A6" TextColor="White"/>
+                <Button Text="Валюта" Command="{Binding FilterAssetsCommand}" CommandParameter="Валюта" HeightRequest="35" CornerRadius="17" BackgroundColor="#95A5A6" TextColor="White"/>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <ActivityIndicator Grid.Row="1" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" HorizontalOptions="Center" VerticalOptions="Center" Color="#3498DB"/>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding DisplayedAssets}" Margin="15">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <ContentView Padding="0,0,0,10">
+                        <Frame BackgroundColor="White" CornerRadius="12" Padding="15" HasShadow="True" BorderColor="Transparent">
+                            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16"/>
+                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding InstrumentType}" TextColor="#7F8C8D" FontSize="12"/>
+
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding CurrentPrice, StringFormat='{0:N2} ₽'}" FontAttributes="Bold" TextColor="#2C3E50" HorizontalOptions="End"/>
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Quantity, StringFormat='{0} шт.'}" TextColor="#7F8C8D" FontSize="12" HorizontalOptions="End"/>
+                            </Grid>
+                        </Frame>
+                    </ContentView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

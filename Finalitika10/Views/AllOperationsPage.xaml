@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
+             x:DataType="viewmodels:AllOperationsViewModel"
+             x:Class="Finalitika10.Views.AllOperationsPage"
+             Title="История операций">
+    <CollectionView ItemsSource="{Binding Operations}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <ContentView Padding="0,0,0,10">
+                    <Frame BackgroundColor="White" CornerRadius="12" Padding="15" HasShadow="True" BorderColor="Transparent">
+                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="15" VerticalOptions="Center">
+
+                            <BoxView Grid.Column="0" Color="#BDC3C7" WidthRequest="4" CornerRadius="2" VerticalOptions="Fill"/>
+
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                <Label Text="{Binding Asset}" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16"/>
+                                <HorizontalStackLayout Spacing="5">
+                                    <Label Text="{Binding Type}" TextColor="#7F8C8D" FontSize="12"/>
+                                    <Label Text="•" TextColor="#BDC3C7" FontSize="12"/>
+                                    <Label Text="{Binding Date}" TextColor="#7F8C8D" FontSize="12"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" HorizontalOptions="End">
+                                <Label Text="{Binding Amount}" FontAttributes="Bold" FontSize="15" HorizontalOptions="End"/>
+                                <Label Text="{Binding Status}" TextColor="#27AE60" FontSize="11" HorizontalOptions="End"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
+                </ContentView>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

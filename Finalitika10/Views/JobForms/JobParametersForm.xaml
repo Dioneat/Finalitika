@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Finalitika10.Views.JobForms.JobParametersForm">
+    <VerticalStackLayout Spacing="15">
+        <Entry Placeholder="Название должности" Text="{Binding Job.PositionName}" BackgroundColor="#F4F6F8" TextColor="#2C3E50"/>
+
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+            <VerticalStackLayout Grid.Column="0" Spacing="5">
+                <Label Text="График:" FontSize="12" TextColor="#7F8C8D"/>
+                <Picker TextColor="Black" ItemsSource="{Binding Schedules}" SelectedItem="{Binding Job.ScheduleType}" BackgroundColor="#F4F6F8"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                <Label Text="Тип ставки:" FontSize="12" TextColor="#7F8C8D"/>
+                <Picker TextColor="Black" ItemsSource="{Binding RateTypes}" SelectedItem="{Binding Job.RateType}" BackgroundColor="#F4F6F8"/>
+            </VerticalStackLayout>
+        </Grid>
+
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+            <VerticalStackLayout Grid.Column="0" Spacing="5">
+                <Label Text="Ставка (₽):" FontSize="12" TextColor="#7F8C8D"/>
+                <Entry TextColor="Black" Keyboard="Numeric" Text="{Binding Job.Rate}" BackgroundColor="#F4F6F8"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1" Spacing="5" IsVisible="False">
+                <VerticalStackLayout.Triggers>
+                    <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding Job.RateType}" Value="За час">
+                        <Setter Property="IsVisible" Value="True"/>
+                    </DataTrigger>
+                </VerticalStackLayout.Triggers>
+                <Label Text="Часов в день:" FontSize="12" TextColor="#7F8C8D"/>
+                <Entry Keyboard="Numeric" TextColor="Black" Text="{Binding Job.HoursPerDay}" BackgroundColor="#F4F6F8"/>
+            </VerticalStackLayout>
+        </Grid>
+
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+            <VerticalStackLayout Grid.Column="0" Spacing="5">
+                <Label Text="Премия (%):" FontSize="12" TextColor="#7F8C8D"/>
+                <Entry Keyboard="Numeric" TextColor="Black" Text="{Binding Job.BonusPercentage}" BackgroundColor="#F4F6F8"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                <Label Text="Штрафы (₽):" FontSize="12" TextColor="#7F8C8D"/>
+                <Entry Keyboard="Numeric" TextColor="Black" Text="{Binding Job.Penalty}" BackgroundColor="#F4F6F8"/>
+            </VerticalStackLayout>
+        </Grid>
+
+        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+            <CheckBox IsChecked="{Binding Job.DeductNdfl}" Color="#3498DB"/>
+            <Label Text="Удержать НДФЛ 13%" VerticalOptions="Center" TextColor="#2C3E50"/>
+        </HorizontalStackLayout>
+
+        <Border BackgroundColor="#F8F9FA" Stroke="Transparent" Padding="15">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8"/>
+            </Border.StrokeShape>
+
+            <VerticalStackLayout Spacing="15">
+
+                <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                    <Label Grid.Column="0" Text="День выплаты зарплаты:" FontSize="14" TextColor="#2C3E50" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Border Grid.Column="1" BackgroundColor="White" Stroke="#E0E0E0" StrokeThickness="1" Padding="10,0" WidthRequest="60">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="6"/>
+                        </Border.StrokeShape>
+                        <Entry Keyboard="Numeric" TextColor="Black" Text="{Binding Job.SalaryDay}" HorizontalTextAlignment="Center"/>
+                    </Border>
+                </Grid>
+
+                <BoxView HeightRequest="1" Color="#E0E0E0"/>
+
+                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                    <CheckBox IsChecked="{Binding Job.HasAdvance}" Color="#3498DB"/>
+                    <Label Text="Учитывать аванс" VerticalOptions="Center" TextColor="#2C3E50" FontAttributes="Bold"/>
+                </HorizontalStackLayout>
+
+                <VerticalStackLayout Spacing="15" IsVisible="{Binding Job.HasAdvance}">
+
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Алгоритм аванса:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Picker TextColor="Black" ItemsSource="{Binding AdvanceTypes}" SelectedItem="{Binding Job.AdvanceType}" BackgroundColor="White"/>
+                    </VerticalStackLayout>
+
+                    <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                        <Label Grid.Column="0" Text="День выплаты аванса:" FontSize="12" TextColor="#7F8C8D" VerticalOptions="Center"/>
+                        <Border Grid.Column="1" BackgroundColor="White" Stroke="#E0E0E0" StrokeThickness="1" Padding="10,0" WidthRequest="60">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="6"/>
+                            </Border.StrokeShape>
+                            <Entry Keyboard="Numeric" TextColor="Black" Text="{Binding Job.AdvanceDay}" HorizontalTextAlignment="Center"/>
+                        </Border>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

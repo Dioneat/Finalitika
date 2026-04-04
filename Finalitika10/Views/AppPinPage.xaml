@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
+             x:Class="Finalitika10.Views.AppPinPage"
+             BackgroundColor="White"
+             Shell.PresentationMode="ModalNotAnimated">
+    <Grid RowDefinitions="*, Auto, *" Padding="30">
+
+        <VerticalStackLayout Grid.Row="0" VerticalOptions="End" Spacing="20" HorizontalOptions="Center">
+            <Label Text="🔒" FontSize="40" HorizontalOptions="Center"/>
+            <Label Text="{Binding StatusMessage}" TextColor="{Binding StatusColor}" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+            <Label Text="{Binding PinDots}" FontSize="36" TextColor="#34495E" HorizontalOptions="Center" CharacterSpacing="5"/>
+        </VerticalStackLayout>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="25" ColumnSpacing="25" Margin="0,50,0,0" HorizontalOptions="Center">
+
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="BackgroundColor" Value="#F4F6F8"/>
+                    <Setter Property="TextColor" Value="#2C3E50"/>
+                    <Setter Property="FontSize" Value="28"/>
+                    <Setter Property="FontAttributes" Value="Bold"/>
+                    <Setter Property="CornerRadius" Value="40"/>
+                    <Setter Property="WidthRequest" Value="80"/>
+                    <Setter Property="HeightRequest" Value="80"/>
+                </Style>
+            </Grid.Resources>
+
+            <Button Grid.Row="0" Grid.Column="0" Text="1" Command="{Binding NumberPressCommand}" CommandParameter="1"/>
+            <Button Grid.Row="0" Grid.Column="1" Text="2" Command="{Binding NumberPressCommand}" CommandParameter="2"/>
+            <Button Grid.Row="0" Grid.Column="2" Text="3" Command="{Binding NumberPressCommand}" CommandParameter="3"/>
+
+            <Button Grid.Row="1" Grid.Column="0" Text="4" Command="{Binding NumberPressCommand}" CommandParameter="4"/>
+            <Button Grid.Row="1" Grid.Column="1" Text="5" Command="{Binding NumberPressCommand}" CommandParameter="5"/>
+            <Button Grid.Row="1" Grid.Column="2" Text="6" Command="{Binding NumberPressCommand}" CommandParameter="6"/>
+
+            <Button Grid.Row="2" Grid.Column="0" Text="7" Command="{Binding NumberPressCommand}" CommandParameter="7"/>
+            <Button Grid.Row="2" Grid.Column="1" Text="8" Command="{Binding NumberPressCommand}" CommandParameter="8"/>
+            <Button Grid.Row="2" Grid.Column="2" Text="9" Command="{Binding NumberPressCommand}" CommandParameter="9"/>
+
+            <Button Grid.Row="3" Grid.Column="0" Text="👁" BackgroundColor="Transparent" TextColor="#3498DB" FontSize="36" 
+                    Command="{Binding TriggerBiometricCommand}" IsVisible="{Binding IsBiometricVisible}"/>
+
+            <Button Grid.Row="3" Grid.Column="1" Text="0" Command="{Binding NumberPressCommand}" CommandParameter="0"/>
+
+            <Button Grid.Row="3" Grid.Column="2" Text="⌫" BackgroundColor="Transparent" TextColor="#7F8C8D" FontSize="24" 
+                    Command="{Binding DeletePressCommand}"/>
+        </Grid>
+    </Grid>
+</ContentPage>

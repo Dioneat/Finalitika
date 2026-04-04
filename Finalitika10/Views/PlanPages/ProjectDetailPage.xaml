@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Finalitika10.Models"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels.PlanViewModels"
+             x:DataType="viewmodels:ProjectDetailViewModel"
+             x:Class="Finalitika10.Views.PlanPages.ProjectDetailPage"
+             Title="{Binding Project.Title}"
+             BackgroundColor="#F4F6F8">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <Border BackgroundColor="{Binding Project.BackgroundColor}"
+                    Padding="20"
+                    Stroke="Transparent">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="{Binding Project.Emoji}"
+                           FontSize="48"
+                           HorizontalOptions="Center" />
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0">
+                            <Label Text="Собрано:"
+                                   FontSize="14"
+                                   TextColor="#D5DBDB" />
+                            <Label Text="{Binding TotalCollected, StringFormat='{0:N0} ₽'}"
+                                   FontSize="24"
+                                   FontAttributes="Bold"
+                                   TextColor="White" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1"
+                                             HorizontalOptions="End">
+                            <Label Text="Цель:"
+                                   FontSize="14"
+                                   TextColor="#D5DBDB"
+                                   HorizontalOptions="End" />
+
+                            <HorizontalStackLayout Spacing="5"
+                                                   HorizontalOptions="End">
+                                <Label Text="{Binding Project.TargetAmount, StringFormat='{0:N0} ₽'}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="White" />
+
+                                <ImageButton Source="edit_icon.png"
+                                             WidthRequest="16"
+                                             HeightRequest="16"
+                                             Command="{Binding EditTargetAmountCommand}"
+                                             BackgroundColor="Transparent"
+                                             IsVisible="{Binding IsNotExpensesMode}" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <ProgressBar Progress="{Binding ProgressPercent}"
+                                 ProgressColor="White"
+                                 BackgroundColor="#80FFFFFF"
+                                 HeightRequest="8" />
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout Spacing="10"
+                                 IsVisible="{Binding IsExpensesMode}">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0"
+                           Text="Смета расходов"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#2C3E50"
+                           VerticalOptions="Center" />
+
+                    <Button Grid.Column="1"
+                            Text="+ Расход"
+                            Command="{Binding AddExpenseCommand}"
+                            BackgroundColor="#FCE4EC"
+                            TextColor="#E91E63"
+                            CornerRadius="12"
+                            HeightRequest="35"
+                            Padding="15,0" />
+                </Grid>
+
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Project.Expenses}"
+                                     Spacing="5">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:ProjectExpense">
+                            <Grid ColumnDefinitions="*,Auto"
+                                  BackgroundColor="White"
+                                  Padding="15,10">
+                                <Label Grid.Column="0"
+                                       Text="{Binding Title}"
+                                       TextColor="#2C3E50"
+                                       VerticalOptions="Center" />
+
+                                <Label Grid.Column="1"
+                                       Text="{Binding Amount, StringFormat='{0:N0} ₽'}"
+                                       FontAttributes="Bold"
+                                       TextColor="#2C3E50"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,Auto" Margin="0,10,0,0">
+                <Label Grid.Column="0"
+                       Text="Участники"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#2C3E50"
+                       VerticalOptions="Center" />
+
+                <Button Grid.Column="1"
+                        Text="+ Человек"
+                        Command="{Binding AddParticipantCommand}"
+                        BackgroundColor="#E8F8F5"
+                        TextColor="#16A085"
+                        CornerRadius="12"
+                        HeightRequest="35"
+                        Padding="15,0" />
+            </Grid>
+
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Project.Participants}"
+                                 Spacing="15">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:ProjectParticipant">
+                        <Border BackgroundColor="White"
+                                Padding="15"
+                                Stroke="#E0E0E0"
+                                StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+
+                            <VerticalStackLayout Spacing="10">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:ProjectDetailViewModel}}, Path=AddContributionCommand}"
+                                                              CommandParameter="{Binding}" />
+                                    </Grid.GestureRecognizers>
+
+                                    <Label Grid.Column="0"
+                                           Text="{Binding Name}"
+                                           FontAttributes="Bold"
+                                           FontSize="16"
+                                           TextColor="#2C3E50"
+                                           VerticalOptions="Center" />
+
+                                    <Border Grid.Column="1"
+                                            BackgroundColor="{Binding StatusColor, StringFormat='{0}1A'}"
+                                            Stroke="{Binding StatusColor}"
+                                            StrokeThickness="1"
+                                            Padding="10,5">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="8" />
+                                        </Border.StrokeShape>
+
+                                        <Label Text="{Binding StatusText}"
+                                               FontSize="12"
+                                               FontAttributes="Bold"
+                                               TextColor="{Binding StatusColor}" />
+                                    </Border>
+                                </Grid>
+
+                                <BoxView HeightRequest="1"
+                                         Color="#F4F6F8"
+                                         IsVisible="{Binding HasContributions}" />
+
+                                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Contributions}"
+                                                     Spacing="5">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate x:DataType="models:ProjectContribution">
+                                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                                <Label Grid.Column="0"
+                                                       Text="{Binding DisplayDate}"
+                                                       FontSize="10"
+                                                       TextColor="#BDC3C7"
+                                                       VerticalOptions="Center"
+                                                       Margin="0,0,10,0" />
+
+                                                <Label Grid.Column="1"
+                                                       Text="{Binding Comment}"
+                                                       FontSize="12"
+                                                       TextColor="#7F8C8D"
+                                                       VerticalOptions="Center" />
+
+                                                <Label Grid.Column="2"
+                                                       Text="{Binding Amount, StringFormat='+{0:N0} ₽'}"
+                                                       FontSize="12"
+                                                       FontAttributes="Bold"
+                                                       TextColor="#27AE60"
+                                                       HorizontalOptions="End" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

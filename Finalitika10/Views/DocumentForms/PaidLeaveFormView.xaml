@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
+             x:DataType="viewmodels:DocumentEditorViewModel"
+             x:Class="Finalitika10.Views.DocumentForms.PaidLeaveFormView">
+    <VerticalStackLayout Spacing="15">
+        <Label Text="ФИО Директора (в им. падеже):" />
+        <Entry Text="{Binding DirectorName}" Placeholder="Иванов Иван Иванович" />
+
+        <Label Text="ФИО Работника (в им. падеже):" />
+        <Entry Text="{Binding EmployeeName}" Placeholder="Петров Петр Петрович" />
+
+        <Label Text="Название компании:" />
+        <Entry Text="{Binding CompanyName}" Placeholder="ООО Ромашка" />
+
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+            <VerticalStackLayout Grid.Column="0">
+                <Label Text="Дата начала отпуска:" />
+                <Entry Text="{Binding LeaveStartDate}" Placeholder="15.07.2025" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Column="1">
+                <Label Text="Кол-во дней:" />
+                <Entry Text="{Binding LeaveDaysCount}" Placeholder="14" Keyboard="Numeric" />
+            </VerticalStackLayout>
+        </Grid>
+    </VerticalStackLayout>
+</ContentView>

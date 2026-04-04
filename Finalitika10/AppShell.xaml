@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Finalitika10.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Finalitika10"
+    Shell.FlyoutBehavior="Disabled"
+    FlyoutBackgroundColor="#4F378A"
+    FlyoutWidth="250"
+    >
+
+    <TabBar x:Name="tabBar">
+        <Tab Title="Главная" Icon="home.png">
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" 
+                      Route="MainPage" />
+        </Tab>
+
+        <Tab Title="Анализ" Icon="analys.png">
+            <ShellContent ContentTemplate="{DataTemplate local:FinancialAnalysisPage}" 
+                      Route="FinancialAnalysisPage" />
+        </Tab>
+        <Tab Title="Планы" Icon="goals.png">
+            <ShellContent ContentTemplate="{DataTemplate local:PlansPage}" 
+              Route="FinancialGoals" />
+        </Tab>
+
+        <Tab x:Name="DynamicTab" Title="Инвестиции" Icon="investment.png">
+            <ShellContent x:Name="DynamicContent" 
+                          ContentTemplate="{DataTemplate local:InvestmentsPage}" 
+                          Route="DynamicRoute" />
+        </Tab>
+
+        <Tab Title="Профиль" Icon="person.png">
+            <ShellContent ContentTemplate="{DataTemplate local:ProfilePage}" 
+                      Route="ProfilePage" />
+        </Tab>
+    </TabBar>
+
+</Shell>

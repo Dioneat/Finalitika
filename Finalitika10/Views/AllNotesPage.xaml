@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels.PlanViewModels"
+             xmlns:models="clr-namespace:Finalitika10.Models"
+             x:DataType="viewmodels:AllNotesViewModel"
+             x:Class="Finalitika10.Views.AllNotesPage"
+             Title="AllNotesPage">
+    <Grid RowDefinitions="*, Auto">
+
+        <CollectionView Grid.Row="0" ItemsSource="{Binding Notes}" Margin="15">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="0,50,0,0">
+                    <Label Text="📝" FontSize="48" HorizontalOptions="Center"/>
+                    <Label Text="У вас пока нет заметок" FontSize="16" TextColor="#7F8C8D" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ProjectNote">
+                    <Border Stroke="Transparent" BackgroundColor="{Binding ColorHex}" Padding="15" HeightRequest="160">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AllNotesViewModel}}, Path=OpenNoteCommand}" CommandParameter="{Binding}"/>
+                        </Border.GestureRecognizers>
+
+                        <Grid RowDefinitions="Auto, *, Auto">
+                            <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
+                                <Label Grid.Column="0" Text="{Binding Title}" FontAttributes="Bold" FontSize="14" TextColor="#2C3E50" MaxLines="2" LineBreakMode="TailTruncation"/>
+                                <ImageButton Grid.Column="1" 
+                                             Source="delete_icon.png" 
+                                             WidthRequest="20" 
+                                             HeightRequest="20" 
+                                             VerticalOptions="Start"
+                                             BackgroundColor="Transparent"
+                                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AllNotesViewModel}}, Path=DeleteNoteCommand}" 
+                                             CommandParameter="{Binding}">
+                                </ImageButton>
+                            </Grid>
+
+                            <Label Grid.Row="1" Text="{Binding PreviewText}" FontSize="12" TextColor="#34495E" MaxLines="4" LineBreakMode="TailTruncation" Margin="0,8,0,0"/>
+
+                            <Label Grid.Row="2" Text="{Binding Date}" FontSize="10" TextColor="#7F8C8D" Margin="0,5,0,0"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Border Grid.Row="1" BackgroundColor="White" Padding="15" Stroke="Transparent">
+            <Border.Shadow>
+                <Shadow Brush="Black" Offset="0,-2" Radius="10" Opacity="0.05" />
+            </Border.Shadow>
+            <Button Text="+ Новая заметка" 
+                    Command="{Binding AddNewNoteCommand}" 
+                    BackgroundColor="#2C3E50" 
+                    TextColor="White" 
+                    CornerRadius="12" 
+                    HeightRequest="50" 
+                    FontAttributes="Bold"/>
+        </Border>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels.AnalysisViewModels"
+             x:DataType="viewmodels:AddTransferViewModel"
+             x:Class="Finalitika10.Views.AddTransferPage"
+             Title="AddTransferPage">
+
+    <Border BackgroundColor="White" VerticalOptions="End" Padding="20,20,20,40" Margin="0,50,0,0">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="24,24,0,0" />
+        </Border.StrokeShape>
+
+        <VerticalStackLayout Spacing="20">
+            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Text="Перевод" FontSize="20" FontAttributes="Bold" TextColor="#2C3E50"/>
+                    <Label Text="Между своими счетами" FontSize="12" TextColor="#7F8C8D"/>
+                </VerticalStackLayout>
+                <ImageButton Grid.Column="1" Source="close_icon.png" Command="{Binding CloseCommand}" WidthRequest="44" HeightRequest="44" Padding="10" BackgroundColor="Transparent"/>
+            </Grid>
+
+            <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                <Label Text="Сумма (₽)" FontSize="12" TextColor="#7F8C8D" HorizontalOptions="Center"/>
+                <Entry Text="{Binding Amount}" Keyboard="Numeric" FontSize="36" FontAttributes="Bold" TextColor="#3498DB" HorizontalTextAlignment="Center" BackgroundColor="Transparent" WidthRequest="200"/>
+                <BoxView HeightRequest="2" Color="#3498DB" WidthRequest="150" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="15">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Откуда (Счет списания):" FontSize="12" TextColor="#7F8C8D"/>
+                    <Picker Title="Выберите счет" ItemsSource="{Binding Accounts}" SelectedItem="{Binding FromAccount}" ItemDisplayBinding="{Binding Name}" BackgroundColor="#F4F6F8" TextColor="#2C3E50"/>
+                </VerticalStackLayout>
+
+                <Label Text="↓" FontSize="20" FontAttributes="Bold" TextColor="#BDC3C7" HorizontalOptions="Center" Margin="0,-5"/>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Куда (Счет зачисления):" FontSize="12" TextColor="#7F8C8D"/>
+                    <Picker Title="Выберите счет" ItemsSource="{Binding Accounts}" SelectedItem="{Binding ToAccount}" ItemDisplayBinding="{Binding Name}" BackgroundColor="#F4F6F8" TextColor="#2C3E50"/>
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <VerticalStackLayout Grid.Column="0" Spacing="5">
+                        <Label Text="Дата:" FontSize="12" TextColor="#7F8C8D"/>
+                        <DatePicker Date="{Binding Date}" BackgroundColor="#F4F6F8" TextColor="#2C3E50"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                        <Label Text="Комментарий:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding Comment}" Placeholder="Необязательно" BackgroundColor="#F4F6F8"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+
+            <Button Text="Перевести" Command="{Binding SaveCommand}" BackgroundColor="#3498DB" TextColor="White" CornerRadius="12" HeightRequest="50" FontAttributes="Bold" Margin="0,10,0,0"/>
+        </VerticalStackLayout>
+    </Border>
+</ContentPage>

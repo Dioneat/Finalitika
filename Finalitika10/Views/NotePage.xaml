@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels.PlanViewModels"
+             x:DataType="viewmodels:NoteViewModel"
+             x:Class="Finalitika10.Views.NotePage"
+             Title="Заметки" BackgroundColor="White">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{Binding ModeButtonText}" 
+                     Command="{Binding ToggleModeCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto, *">
+
+        <Entry Grid.Row="0" 
+               Text="{Binding NoteTitle}" 
+               Placeholder="Название заметки" 
+               FontAttributes="Bold" 
+               FontSize="18" 
+               TextColor="#2C3E50"
+               BackgroundColor="White"
+               Margin="15,15,15,0" />
+
+        <WebView Grid.Row="1" 
+                 Source="{Binding HtmlPreviewSource}" 
+                 IsVisible="{Binding IsPreviewMode}" 
+                 Margin="15"
+                 VerticalOptions="FillAndExpand" 
+                 HorizontalOptions="FillAndExpand" />
+
+        <Editor Grid.Row="1" 
+                Text="{Binding RawMarkdownText}" 
+                IsVisible="{Binding IsEditMode}"
+                Placeholder="Пишите здесь с использованием Markdown...&#10;&#10;# Заголовок&#10;**Жирный**&#10;- Список"
+                BackgroundColor="#F8F9FA"
+                TextColor="#2C3E50"
+                FontSize="16"
+                Margin="15"
+                AutoSize="TextChanges"
+                VerticalOptions="FillAndExpand" />
+    </Grid>
+</ContentPage>
