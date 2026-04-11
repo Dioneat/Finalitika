@@ -12,16 +12,13 @@ namespace Finalitika10.ViewModels
 {
     public partial class DocumentsViewModel : ObservableObject
     {
-        // Храним ВСЕ документы здесь
         private readonly List<DocumentTemplateModel> _allDocuments;
 
-        // А интерфейсу отдаем только отфильтрованные
         public ObservableCollection<DocumentTemplateModel> FilteredDocuments { get; } = new();
 
         [ObservableProperty]
         private string searchQuery = "";
 
-        // Этот метод автоматически срабатывает, когда пользователь печатает в SearchBar
         partial void OnSearchQueryChanged(string value)
         {
             FilterDocuments();
@@ -29,7 +26,6 @@ namespace Finalitika10.ViewModels
 
         public DocumentsViewModel()
         {
-            // Инициализируем базу документов с красивыми метаданными
             _allDocuments = new List<DocumentTemplateModel>
             {
                 new DocumentTemplateModel { Title = "Декларация 3-НДФЛ", DocumentType = "Ndfl3Declaration", Icon = "🏛️", Description = "Оформление налогового вычета (возврат 13%)", IconBgColor = "#FDEDEC", Tag = "Топ", TagColor = "#E74C3C" },
@@ -48,7 +44,6 @@ namespace Finalitika10.ViewModels
         {
             FilteredDocuments.Clear();
 
-            // Если поиск пустой - показываем всё. Иначе ищем по названию и описанию.
             var filtered = string.IsNullOrWhiteSpace(SearchQuery)
                 ? _allDocuments
                 : _allDocuments.Where(d =>
@@ -65,7 +60,6 @@ namespace Finalitika10.ViewModels
         private async Task OpenEditorAsync(DocumentTemplateModel document)
         {
             if (document == null) return;
-            // ИСПРАВЛЕНИЕ: Используем Shell.Current для надежной навигации
             await Shell.Current.GoToAsync($"{nameof(DocumentEditorPage)}?DocType={document.DocumentType}");
         }
     }

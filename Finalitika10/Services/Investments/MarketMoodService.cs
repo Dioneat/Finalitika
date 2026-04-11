@@ -71,26 +71,19 @@ namespace Finalitika10.Services.Investments
 
             if (rvi < 20)
             {
-                result.MoodText = "Экстремальная жадность";
+                result.MoodText = "Оптимизм";
                 result.MoodEmoji = "🤑";
                 result.ColorHex = "#27AE60";
                 result.Progress = 0.9;
             }
-            else if (rvi < 26)
-            {
-                result.MoodText = "Оптимизм";
-                result.MoodEmoji = "😊";
-                result.ColorHex = "#2ECC71";
-                result.Progress = 0.7;
-            }
-            else if (rvi < 35)
+            else if (rvi > 20 && rvi < 40)
             {
                 result.MoodText = "Нейтрально";
                 result.MoodEmoji = "😐";
-                result.ColorHex = "#F39C12";
+                result.ColorHex = "#2ECC71";
                 result.Progress = 0.5;
             }
-            else if (rvi < 45)
+            else if (rvi > 40)
             {
                 result.MoodText = "Страх";
                 result.MoodEmoji = "😨";
