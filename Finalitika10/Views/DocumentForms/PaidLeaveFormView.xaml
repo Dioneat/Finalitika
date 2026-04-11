@@ -4,25 +4,45 @@
              xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
              x:DataType="viewmodels:DocumentEditorViewModel"
              x:Class="Finalitika10.Views.DocumentForms.PaidLeaveFormView">
+
+    <ContentView.Resources>
+        <Style TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="#F8F9FA"/>
+            <Setter Property="TextColor" Value="#2C3E50"/>
+            <Setter Property="PlaceholderColor" Value="#7F8C8D"/>
+        </Style>
+    </ContentView.Resources>
+
     <VerticalStackLayout Spacing="15">
-        <Label Text="ФИО Директора (в им. падеже):" />
-        <Entry Text="{Binding DirectorName}" Placeholder="Иванов Иван Иванович" />
-
-        <Label Text="ФИО Работника (в им. падеже):" />
-        <Entry Text="{Binding EmployeeName}" Placeholder="Петров Петр Петрович" />
-
-        <Label Text="Название компании:" />
-        <Entry Text="{Binding CompanyName}" Placeholder="ООО Ромашка" />
-
-        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
-            <VerticalStackLayout Grid.Column="0">
-                <Label Text="Дата начала отпуска:" />
-                <Entry Text="{Binding LeaveStartDate}" Placeholder="15.07.2025" />
+        <Border BackgroundColor="White" Padding="15" Stroke="#EBEBEB" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="🏢 Стороны" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16" />
+                <Entry Text="{Binding CompanyName}" Placeholder="Название компании (ООО Ромашка)" />
+                <Entry Text="{Binding DirectorName}" Placeholder="ФИО Директора (в им. падеже)" />
+                <Entry Text="{Binding EmployeeName}" Placeholder="ФИО Работника (в им. падеже)" />
             </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="1">
-                <Label Text="Кол-во дней:" />
-                <Entry Text="{Binding LeaveDaysCount}" Placeholder="14" Keyboard="Numeric" />
+        </Border>
+
+        <Border BackgroundColor="White" Padding="15" Stroke="#EBEBEB" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="🌴 Детали отпуска" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16" />
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Дата начала:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding LeaveStartDate}" Placeholder="15.07.2025" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Кол-во дней:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding LeaveDaysCount}" Placeholder="14" Keyboard="Numeric" />
+                    </VerticalStackLayout>
+                </Grid>
             </VerticalStackLayout>
-        </Grid>
+        </Border>
     </VerticalStackLayout>
 </ContentView>

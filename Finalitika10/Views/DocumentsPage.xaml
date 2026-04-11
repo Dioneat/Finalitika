@@ -4,23 +4,85 @@
              xmlns:models="clr-namespace:Finalitika10.Models"
              xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
              x:DataType="viewmodels:DocumentsViewModel"
-             x:Class="Finalitika10.Views.DocumentsPage" Title="Документы" BackgroundColor="White">
-    <CollectionView ItemsSource="{Binding AvailableDocuments}">
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="models:DocumentTemplateModel">
-                <Grid Padding="20">
-                    <Label Text="{Binding Title}" 
-                       FontSize="18" 
-                       TextColor="Black" 
-                       VerticalOptions="Center" />
+             x:Class="Finalitika10.Views.DocumentsPage" 
+             BackgroundColor="#F4F6F8">
+    <Grid RowDefinitions="Auto, *">
 
-                    <Grid.GestureRecognizers>
-                        <TapGestureRecognizer 
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenEditorCommand}"
-                        CommandParameter="{Binding .}" />
-                    </Grid.GestureRecognizers>
-                </Grid>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+        <VerticalStackLayout Grid.Row="0" Spacing="15" Padding="20,20,20,10" BackgroundColor="White">
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Шаблоны документов" FontSize="24" FontAttributes="Bold" TextColor="#2C3E50"/>
+                <Label Text="Заполните и скачайте в PDF за пару минут" FontSize="14" TextColor="#7F8C8D"/>
+            </VerticalStackLayout>
+
+            <Border BackgroundColor="#F4F6F8" Stroke="Transparent" HeightRequest="45">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <SearchBar Text="{Binding SearchQuery}" 
+                           Placeholder="Поиск (например: Отпуск)" 
+                           CancelButtonColor="#7F8C8D"
+                           TextColor="#2C3E50"
+                           PlaceholderColor="#95A5A6"
+                           BackgroundColor="Transparent"
+                           VerticalOptions="Center"/>
+            </Border>
+        </VerticalStackLayout>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding FilteredDocuments}" Margin="0,15,0,30">
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="0,50,0,0">
+                    <Label Text="🔍" FontSize="48" HorizontalOptions="Center"/>
+                    <Label Text="Документ не найден" FontSize="18" FontAttributes="Bold" TextColor="#2C3E50" HorizontalOptions="Center"/>
+                    <Label Text="Попробуйте изменить запрос" FontSize="14" TextColor="#7F8C8D" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:DocumentTemplateModel">
+
+                    <Border BackgroundColor="White" Stroke="Transparent" Padding="15" Margin="20,0,20,15">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="16"/>
+                        </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="Black" Offset="0,4" Radius="8" Opacity="0.05"/>
+                        </Border.Shadow>
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:DocumentsViewModel}}, Path=OpenEditorCommand}" CommandParameter="{Binding}"/>
+                        </Border.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="15" VerticalOptions="Center">
+
+                            <Border Grid.Column="0" BackgroundColor="{Binding IconBgColor}" WidthRequest="50" HeightRequest="50" Stroke="Transparent" VerticalOptions="Center">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12"/>
+                                </Border.StrokeShape>
+                                <Label Text="{Binding Icon}" FontSize="24" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                    <Label Text="{Binding Title}" FontSize="16" FontAttributes="Bold" TextColor="#2C3E50" MaxLines="1" LineBreakMode="TailTruncation"/>
+
+                                    <Border BackgroundColor="{Binding TagColor, StringFormat='{0}1A'}" Padding="6,2" Stroke="Transparent" VerticalOptions="Center" IsVisible="{Binding HasTag}">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="6"/>
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding Tag}" FontSize="10" FontAttributes="Bold" TextColor="{Binding TagColor}"/>
+                                    </Border>
+                                </HorizontalStackLayout>
+
+                                <Label Text="{Binding Description}" FontSize="13" TextColor="#7F8C8D" MaxLines="2" LineBreakMode="TailTruncation"/>
+                            </VerticalStackLayout>
+
+                            <Label Grid.Column="2" Text="›" FontSize="24" TextColor="#BDC3C7" FontAttributes="Bold" VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </ContentPage>

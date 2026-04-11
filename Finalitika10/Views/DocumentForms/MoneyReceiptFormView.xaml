@@ -4,44 +4,77 @@
              xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
              x:DataType="viewmodels:DocumentEditorViewModel"
              x:Class="Finalitika10.Views.DocumentForms.MoneyReceiptFormView">
+
+    <ContentView.Resources>
+        <Style TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="#F8F9FA"/>
+            <Setter Property="TextColor" Value="#2C3E50"/>
+            <Setter Property="PlaceholderColor" Value="#7F8C8D"/>
+        </Style>
+        <Style TargetType="Editor">
+            <Setter Property="BackgroundColor" Value="#F8F9FA"/>
+            <Setter Property="TextColor" Value="#2C3E50"/>
+        </Style>
+    </ContentView.Resources>
+
     <VerticalStackLayout Spacing="15">
-        <Label Text="Кто получает деньги (Я,...):" FontAttributes="Bold" />
-        <Entry Text="{Binding ReceiverName}" Placeholder="Макеев Артем Олегович" />
 
-        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
-            <VerticalStackLayout Grid.Column="0">
-                <Label Text="Дата рождения:" />
-                <Entry Text="{Binding ReceiverBirthDate}" Placeholder="13.05.1989" />
+        <Border BackgroundColor="White" Padding="15" Stroke="#EBEBEB" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="📥 Кто получает деньги (Я,...)" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16" />
+                <Entry Text="{Binding ReceiverName}" Placeholder="ФИО (Макеев Артем Олегович)" />
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Дата рождения:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding ReceiverBirthDate}" Placeholder="13.05.1989" />
+                    </VerticalStackLayout>
+                </Grid>
+                <Label Text="Паспорт (серия, выдан...):" FontSize="12" TextColor="#7F8C8D"/>
+                <Editor Text="{Binding ReceiverPassport}" AutoSize="TextChanges" Placeholder="серия 4599, № 757532..." HeightRequest="60"/>
             </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="1">
-                <Label Text="Сумма (руб.):" />
-                <Entry Text="{Binding ReceiptAmount}" Placeholder="100 000" />
+        </Border>
+
+        <Border BackgroundColor="White" Padding="15" Stroke="#EBEBEB" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="📤 Кто передает деньги" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16" />
+                <Entry Text="{Binding SenderName}" Placeholder="ФИО (Лавренов Олег Сергеевич)" />
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Дата рождения:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding SenderBirthDate}" Placeholder="29.05.1977" />
+                    </VerticalStackLayout>
+                </Grid>
+                <Label Text="Паспорт передающего:" FontSize="12" TextColor="#7F8C8D"/>
+                <Editor Text="{Binding SenderPassport}" AutoSize="TextChanges" Placeholder="серия 4507, № 692345..." HeightRequest="60"/>
             </VerticalStackLayout>
-        </Grid>
+        </Border>
 
-        <Label Text="Паспорт получателя (серия, выдан...):" />
-        <Editor Text="{Binding ReceiverPassport}" AutoSize="TextChanges" Placeholder="серия 4599, № 757532..." />
-
-        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10" />
-
-        <Label Text="От кого получает деньги:" FontAttributes="Bold" />
-        <Entry Text="{Binding SenderName}" Placeholder="Лавренов Олег Сергеевич" />
-
-        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
-            <VerticalStackLayout Grid.Column="0">
-                <Label Text="Дата рождения:" />
-                <Entry Text="{Binding SenderBirthDate}" Placeholder="29.05.1977" />
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="1">
-                <Label Text="Дата возврата:" />
+        <Border BackgroundColor="White" Padding="15" Stroke="#27AE60" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="💵 Сумма и сроки" FontAttributes="Bold" TextColor="#27AE60" FontSize="16" />
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Сумма (руб.):" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding ReceiptAmount}" Placeholder="100 000" Keyboard="Numeric" FontAttributes="Bold" TextColor="#27AE60"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Дата расписки:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding ReceiptDate}" Placeholder="29.03.2025" />
+                    </VerticalStackLayout>
+                </Grid>
+                <Label Text="Обязуюсь вернуть до:" FontSize="12" TextColor="#7F8C8D" Margin="0,10,0,0"/>
                 <Entry Text="{Binding ReceiptReturnDate}" Placeholder="15.04.2025" />
             </VerticalStackLayout>
-        </Grid>
+        </Border>
 
-        <Label Text="Паспорт передающего деньги:" />
-        <Editor Text="{Binding SenderPassport}" AutoSize="TextChanges" Placeholder="серия 4507, № 692345..." />
-
-        <Label Text="Дата составления расписки:" />
-        <Entry Text="{Binding ReceiptDate}" Placeholder="29.03.2025" />
     </VerticalStackLayout>
 </ContentView>

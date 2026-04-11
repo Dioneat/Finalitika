@@ -1,24 +1,119 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
+             x:DataType="viewmodels:PdfPreviewViewModel"
              x:Class="Finalitika10.Views.PdfPreviewPage"
-             Title="PdfPreviewPage">
-    <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center">
+             Title="Предпросмотр документа"
+             BackgroundColor="#F4F6F8"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="Auto, *, Auto">
 
-        <Label Text="Ваш документ успешно сформирован!" 
-               FontSize="22" 
-               HorizontalOptions="Center" 
-               HorizontalTextAlignment="Center"/>
+        <Border Grid.Row="0" BackgroundColor="#2C3E50" Padding="15,10" Stroke="Transparent">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0,0,16,16"/>
+            </Border.StrokeShape>
+            <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+                <ImageButton Grid.Column="0" 
+                             Source="close_icon.png" 
+                             Command="{Binding CloseCommand}" 
+                             WidthRequest="44" 
+                             HeightRequest="44" 
+                             Padding="12" 
+                             BackgroundColor="Transparent"/>
 
-        <Button Text="Скачать PDF" 
-                Command="{Binding DownloadCommand}" 
-                CommandParameter="Pdf" 
-                BackgroundColor="#D32F2F" TextColor="White" />
+                <Label Grid.Column="1" 
+                       Text="Готовый документ" 
+                       FontSize="18" 
+                       FontAttributes="Bold" 
+                       TextColor="White" 
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center"/>
 
-        <Button Text="Скачать XML" 
-                Command="{Binding DownloadCommand}" 
-                CommandParameter="Xml" 
-                BackgroundColor="#388E3C" TextColor="White" />
+                <Label Grid.Column="2" Text="📄" FontSize="24" VerticalOptions="Center" Margin="0,0,10,0"/>
+            </Grid>
+        </Border>
 
-    </VerticalStackLayout>
+        <Grid Grid.Row="1" Margin="15,15,15,0">
+
+            <Border BackgroundColor="White" Stroke="Transparent">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8,8,0,0"/>
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,4" Radius="10" Opacity="0.1"/>
+                </Border.Shadow>
+
+                <Grid>
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="15" IsVisible="{Binding IsPdfLoading}">
+                        <ActivityIndicator IsRunning="True" Color="#3498DB" />
+                        <Label Text="Открываем документ..." TextColor="#7F8C8D" FontSize="14"/>
+                    </VerticalStackLayout>
+
+                    <WebView Source="{Binding PdfFilePath}" 
+                             VerticalOptions="FillAndExpand" 
+                             HorizontalOptions="FillAndExpand">
+                        <WebView.Triggers>
+                            <DataTrigger TargetType="WebView" Binding="{Binding IsPdfLoading}" Value="True">
+                                <Setter Property="IsVisible" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="WebView" Binding="{Binding IsPdfLoading}" Value="False">
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                        </WebView.Triggers>
+                    </WebView>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="2" BackgroundColor="White" Padding="20,15,20,30" Stroke="Transparent">
+            <Border.Shadow>
+                <Shadow Brush="Black" Offset="0,-4" Radius="15" Opacity="0.05"/>
+            </Border.Shadow>
+
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Документ успешно сформирован и готов к отправке" 
+                       FontSize="12" 
+                       TextColor="#7F8C8D" 
+                       HorizontalOptions="Center" 
+                       Margin="0,0,0,5"/>
+
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+
+                    <Button Grid.Column="0" 
+                            Text="Отправить PDF" 
+                            Command="{Binding DownloadCommand}" 
+                            CommandParameter="Pdf" 
+                            BackgroundColor="#E74C3C" 
+                            TextColor="White" 
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            HeightRequest="55">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding HasXml}" Value="False">
+                                <Setter Property="Grid.ColumnSpan" Value="2" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <Button Grid.Column="1" 
+                            Text="Скачать XML" 
+                            Command="{Binding DownloadCommand}" 
+                            CommandParameter="Xml" 
+                            BackgroundColor="#F4F6F8" 
+                            TextColor="#2C3E50" 
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            HeightRequest="55"
+                            IsVisible="{Binding HasXml}">
+                        <Button.ImageSource>
+                            <FontImageSource Glyph="💾" Size="18" Color="#2C3E50"/>
+                        </Button.ImageSource>
+                    </Button>
+
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+    </Grid>
 </ContentPage>

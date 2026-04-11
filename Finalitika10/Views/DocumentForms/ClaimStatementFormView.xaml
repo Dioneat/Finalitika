@@ -4,43 +4,84 @@
              xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
              x:DataType="viewmodels:DocumentEditorViewModel"
              x:Class="Finalitika10.Views.DocumentForms.ClaimStatementFormView">
+
+    <ContentView.Resources>
+        <Style TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="#F8F9FA"/>
+            <Setter Property="TextColor" Value="#2C3E50"/>
+            <Setter Property="PlaceholderColor" Value="#7F8C8D"/>
+        </Style>
+    </ContentView.Resources>
+
     <VerticalStackLayout Spacing="15">
-        <Label Text="Суд (название):" FontAttributes="Bold" />
-        <Entry Text="{Binding CourtName}" Placeholder="Басманный районный суд" />
-        <Label Text="Город суда:" />
-        <Entry Text="{Binding CourtCity}" Placeholder="г. Москва" />
 
-        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10" />
-
-        <Label Text="Истец (Вы):" FontAttributes="Bold" />
-        <Entry Text="{Binding PlaintiffName}" Placeholder="ФИО Истца" />
-        <Entry Text="{Binding PlaintiffAddress}" Placeholder="Адрес проживания" />
-        <Entry Text="{Binding PlaintiffPhone}" Placeholder="Телефон" Keyboard="Telephone" />
-
-        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10" />
-
-        <Label Text="Ответчик (Должник):" FontAttributes="Bold" />
-        <Entry Text="{Binding DefendantName}" Placeholder="ФИО Ответчика" />
-        <Entry Text="{Binding DefendantAddress}" Placeholder="Адрес проживания" />
-        <Entry Text="{Binding DefendantPhone}" Placeholder="Телефон" Keyboard="Telephone" />
-
-        <BoxView HeightRequest="1" Color="LightGray" Margin="0,10" />
-
-        <Label Text="Детали займа:" FontAttributes="Bold" />
-        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
-            <VerticalStackLayout Grid.Column="0">
-                <Label Text="Дата договора:" />
-                <Entry Text="{Binding ClaimLoanDate}" Placeholder="22.03.2024" />
+        <Border BackgroundColor="White" Padding="15" Stroke="#EBEBEB" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="🏛️ Суд" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16" />
+                <Label Text="Название суда:" FontSize="12" TextColor="#7F8C8D"/>
+                <Entry Text="{Binding CourtName}" Placeholder="Басманный районный суд" />
+                <Label Text="Город:" FontSize="12" TextColor="#7F8C8D" Margin="0,5,0,0"/>
+                <Entry Text="{Binding CourtCity}" Placeholder="г. Москва" />
             </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="1">
-                <Label Text="Сумма долга:" />
-                <Entry Text="{Binding ClaimLoanAmount}" Placeholder="400 000 руб." />
-            </VerticalStackLayout>
-        </Grid>
-        <Label Text="Должен был вернуть до:" />
-        <Entry Text="{Binding ClaimReturnDate}" Placeholder="28.03.2025" />
+        </Border>
 
-        <Label Text="Дата подачи иска:" />
-        <Entry Text="{Binding ClaimDate}" Placeholder="05.04.2025" />
+        <Border BackgroundColor="White" Padding="15" Stroke="#3498DB" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="👤 Истец (Вы)" FontAttributes="Bold" TextColor="#3498DB" FontSize="16" />
+                <Entry Text="{Binding PlaintiffName}" Placeholder="ФИО Истца" />
+                <Entry Text="{Binding PlaintiffAddress}" Placeholder="Адрес регистрации/проживания" />
+                <Entry Text="{Binding PlaintiffPhone}" Placeholder="Контактный телефон" Keyboard="Telephone" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Border BackgroundColor="White" Padding="15" Stroke="#E74C3C" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="👤 Ответчик (Должник)" FontAttributes="Bold" TextColor="#E74C3C" FontSize="16" />
+                <Entry Text="{Binding DefendantName}" Placeholder="ФИО Ответчика" />
+                <Entry Text="{Binding DefendantAddress}" Placeholder="Адрес регистрации/проживания" />
+                <Entry Text="{Binding DefendantPhone}" Placeholder="Контактный телефон" Keyboard="Telephone" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Border BackgroundColor="White" Padding="15" Stroke="#EBEBEB" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="📜 Суть требований" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16" />
+
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Дата договора:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding ClaimLoanDate}" Placeholder="22.03.2024" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Сумма долга:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding ClaimLoanAmount}" Placeholder="400 000" Keyboard="Numeric" FontAttributes="Bold"/>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15" Margin="0,10,0,0">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Должен вернуть до:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding ClaimReturnDate}" Placeholder="28.03.2025" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Дата подачи иска:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding ClaimDate}" Placeholder="05.04.2025" />
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
     </VerticalStackLayout>
 </ContentView>

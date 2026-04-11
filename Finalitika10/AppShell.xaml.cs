@@ -19,7 +19,7 @@ namespace Finalitika10
             {
                 UpdateDynamicTab();
             });
-
+            Routing.RegisterRoute("PersonalDataPage", typeof(PersonalDataPage));
             Routing.RegisterRoute(nameof(DocumentEditorPage), typeof(DocumentEditorPage));
             Routing.RegisterRoute(nameof(PdfPreviewPage), typeof(PdfPreviewPage));
             Routing.RegisterRoute(nameof(DocumentsPage), typeof(DocumentsPage));

@@ -8,9 +8,9 @@ namespace Finalitika10.ViewModels
     public partial class AppPinViewModel : ObservableObject
     {
         [ObservableProperty] private string enteredPin = "";
-        [ObservableProperty] private string pinDots = "○ ○ ○ ○"; 
+        [ObservableProperty] private string pinDots = "○ ○ ○ ○";
         [ObservableProperty] private string statusMessage = "Введите ПИН-код";
-        [ObservableProperty] private string statusColor = "#2C3E50"; 
+        [ObservableProperty] private string statusColor = "#2C3E50";
         [ObservableProperty] private bool isBiometricVisible;
 
         public AppPinViewModel()
@@ -19,7 +19,19 @@ namespace Finalitika10.ViewModels
 
             if (IsBiometricVisible)
             {
-                TriggerBiometricAsync();
+                MainThread.BeginInvokeOnMainThread(async () => await SafeTriggerBiometricAsync());
+            }
+        }
+
+        private async Task SafeTriggerBiometricAsync()
+        {
+            try
+            {
+                await TriggerBiometricAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Biometric error: {ex.Message}");
             }
         }
 
@@ -33,6 +45,7 @@ namespace Finalitika10.ViewModels
 
                 if (EnteredPin.Length == 4)
                 {
+                    await Task.Delay(100);
                     await ValidatePinAsync();
                 }
             }
@@ -67,23 +80,41 @@ namespace Finalitika10.ViewModels
 
         private async Task ValidatePinAsync()
         {
-            string savedPin = await SecureStorage.Default.GetAsync("app_pin_code");
+            try
+            {
+                string savedPin = await SecureStorage.Default.GetAsync("app_pin_code");
 
-            if (EnteredPin == savedPin)
-            {
-                StatusMessage = "Успешно!";
-                StatusColor = "#27AE60";
-                await Task.Delay(200); 
-                UnlockApp();
+                if (EnteredPin == savedPin)
+                {
+                    StatusMessage = "Успешно!";
+                    StatusColor = "#27AE60";
+                    await Task.Delay(200);
+                    UnlockApp();
+                }
+                else
+                {
+                    ShowError();
+                }
             }
-            else
+            catch (Exception)
             {
-                StatusMessage = "Неверный ПИН-код";
-                StatusColor = "#E74C3C";
-                EnteredPin = "";
-                UpdateDots();
-                HapticFeedback.Default.Perform(HapticFeedbackType.LongPress); 
+                await Shell.Current.DisplayAlertAsync("Ошибка безопасности", "Системное хранилище ключей повреждено. Пожалуйста, переустановите приложение или сбросьте ПИН-код.", "ОК");
+                ShowError();
             }
+        }
+
+        private void ShowError()
+        {
+            StatusMessage = "Неверный ПИН-код";
+            StatusColor = "#E74C3C";
+            EnteredPin = "";
+            UpdateDots();
+
+            try
+            {
+                HapticFeedback.Default.Perform(HapticFeedbackType.LongPress);
+            }
+            catch { }
         }
 
         private void UpdateDots()
@@ -98,7 +129,7 @@ namespace Finalitika10.ViewModels
 
         private void UnlockApp()
         {
-            Application.Current.MainPage.Navigation.PopModalAsync(animated: false);
+            Shell.Current.Navigation.PopModalAsync(animated: false);
         }
     }
 }

@@ -4,14 +4,32 @@
              xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
              x:DataType="viewmodels:DocumentEditorViewModel"
              x:Class="Finalitika10.Views.DocumentForms.ResignationFormView">
+
+    <ContentView.Resources>
+        <Style TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="#F8F9FA"/>
+            <Setter Property="TextColor" Value="#2C3E50"/>
+            <Setter Property="PlaceholderColor" Value="#7F8C8D"/>
+        </Style>
+    </ContentView.Resources>
+
     <VerticalStackLayout Spacing="15">
-        <Label Text="ФИО Директора (в им. падеже):" />
-        <Entry Text="{Binding DirectorName}" Placeholder="Иванов Иван Иванович" />
+        <Border BackgroundColor="White" Padding="15" Stroke="#EBEBEB" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="🏢 Работодатель и Сотрудник" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16" />
 
-        <Label Text="ФИО Работника (в им. падеже):" />
-        <Entry Text="{Binding EmployeeName}" Placeholder="Петров Петр Петрович" />
+                <Label Text="Название компании:" FontSize="12" TextColor="#7F8C8D"/>
+                <Entry Text="{Binding CompanyName}" Placeholder="ООО Ромашка" />
 
-        <Label Text="Название компании:" />
-        <Entry Text="{Binding CompanyName}" Placeholder="ООО Ромашка" />
+                <Label Text="ФИО Директора (в им. падеже):" FontSize="12" TextColor="#7F8C8D" Margin="0,10,0,0"/>
+                <Entry Text="{Binding DirectorName}" Placeholder="Иванов Иван Иванович" />
+
+                <Label Text="ФИО Работника (в им. падеже):" FontSize="12" TextColor="#7F8C8D" Margin="0,10,0,0"/>
+                <Entry Text="{Binding EmployeeName}" Placeholder="Петров Петр Петрович" />
+            </VerticalStackLayout>
+        </Border>
     </VerticalStackLayout>
 </ContentView>

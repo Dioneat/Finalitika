@@ -141,6 +141,7 @@ namespace Finalitika10
             services.AddTransient<NoteViewModel>();
 
             services.AddTransient<DocumentsViewModel>();
+            services.AddTransient<PersonalDataViewModel>();
             services.AddTransient<DocumentEditorViewModel>();
             services.AddTransient<PdfPreviewViewModel>();
             services.AddTransient<EditJobProfileViewModel>();
@@ -175,7 +176,9 @@ namespace Finalitika10
             services.AddTransient<AllNotesPage>();
             services.AddTransient<NotePage>();
 
+
             services.AddTransient<DocumentsPage>();
+            services.AddTransient<PersonalDataPage>();
             services.AddTransient<DocumentEditorPage>();
             services.AddTransient<PdfPreviewPage>();
             services.AddTransient<EditJobProfilePage>();

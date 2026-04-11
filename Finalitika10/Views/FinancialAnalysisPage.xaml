@@ -343,7 +343,7 @@
                     </Button.Shadow>
                 </Button>
             </HorizontalStackLayout>
-            <Button Text="{Binding FabIcon}" Command="{Binding ToggleFabMenuCommand}" FontAttributes="Bold" FontSize="28" TextColor="White" BackgroundColor="#2980B9" CornerRadius="28" HeightRequest="56" WidthRequest="56" HorizontalOptions="End" Margin="0,5,0,0">
+            <Button Text="{Binding FabIcon}" Command="{Binding ToggleFabMenuCommand}" FontAttributes="Bold" FontSize="28" TextColor="White" BackgroundColor="#6750A4" CornerRadius="28" HeightRequest="56" WidthRequest="56" HorizontalOptions="End" Margin="0,5,0,0">
                 <Button.Shadow>
                     <Shadow Brush="Black" Opacity="0.3" Offset="0,4" Radius="8"/>
                 </Button.Shadow>

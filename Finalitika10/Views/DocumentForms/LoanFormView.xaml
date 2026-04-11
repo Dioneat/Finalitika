@@ -4,60 +4,109 @@
              xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
              x:DataType="viewmodels:DocumentEditorViewModel"
              x:Class="Finalitika10.Views.DocumentForms.LoanFormView">
+
+    <ContentView.Resources>
+        <Style TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="#F8F9FA"/>
+            <Setter Property="TextColor" Value="#2C3E50"/>
+            <Setter Property="PlaceholderColor" Value="#7F8C8D"/>
+        </Style>
+        <Style TargetType="Editor">
+            <Setter Property="BackgroundColor" Value="#F8F9FA"/>
+            <Setter Property="TextColor" Value="#2C3E50"/>
+            <Setter Property="PlaceholderColor" Value="#7F8C8D"/>
+        </Style>
+    </ContentView.Resources>
+
     <VerticalStackLayout Spacing="15">
-        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
-            <VerticalStackLayout Grid.Column="0">
-                <Label Text="Город:" />
-                <Entry Text="{Binding City}" Placeholder="г. Москва" />
+
+        <Border BackgroundColor="White" Padding="15" Stroke="#EBEBEB" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="📅 Основные данные" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16" />
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Город:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding City}" Placeholder="г. Москва" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Дата договора:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding AgreementDate}" Placeholder="22.03.2025" />
+                    </VerticalStackLayout>
+                </Grid>
             </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="1">
-                <Label Text="Дата договора:" />
-                <Entry Text="{Binding AgreementDate}" Placeholder="22.03.2025" />
+        </Border>
+
+        <Border BackgroundColor="White" Padding="15" Stroke="#EBEBEB" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="👥 Стороны" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16" />
+                <Label Text="ФИО Заимодавца (дает деньги):" FontSize="12" TextColor="#7F8C8D"/>
+                <Entry Text="{Binding LenderName}" Placeholder="Макеев Артем Олегович" />
+
+                <Label Text="ФИО Заемщика (берет деньги):" FontSize="12" TextColor="#7F8C8D" Margin="0,10,0,0"/>
+                <Entry Text="{Binding BorrowerName}" Placeholder="Мохов Валентин Викторович" />
             </VerticalStackLayout>
-        </Grid>
+        </Border>
 
-        <Label Text="ФИО Заимодавца (дает деньги):" FontAttributes="Bold" />
-        <Entry Text="{Binding LenderName}" Placeholder="Макеев Артем Олегович" />
+        <Border BackgroundColor="White" Padding="15" Stroke="#EBEBEB" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="💵 Условия займа" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16" />
 
-        <Label Text="ФИО Заемщика (берет деньги):" FontAttributes="Bold" />
-        <Entry Text="{Binding BorrowerName}" Placeholder="Мохов Валентин Викторович" />
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Сумма займа:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding LoanAmount}" Placeholder="400 000" Keyboard="Numeric" FontAttributes="Bold" TextColor="#27AE60"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Пени за просрочку:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding PenaltyRate}" Placeholder="1%" />
+                    </VerticalStackLayout>
+                </Grid>
 
-        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
-            <VerticalStackLayout Grid.Column="0">
-                <Label Text="Сумма займа:" />
-                <Entry Text="{Binding LoanAmount}" Placeholder="400 000 ₽" />
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15" Margin="0,10,0,0">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Дата передачи:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding TransferDate}" Placeholder="28.03.2025" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Дата возврата:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding ReturnDate}" Placeholder="28.03.2026" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Label Text="Способ передачи денег:" FontSize="12" TextColor="#7F8C8D" Margin="0,10,0,0"/>
+                <Picker SelectedItem="{Binding TransferMethod}" BackgroundColor="#F8F9FA" Title="Выберите способ">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>наличными</x:String>
+                            <x:String>безналичным переводом</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
             </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="1">
-                <Label Text="Пени за просрочку:" />
-                <Entry Text="{Binding PenaltyRate}" Placeholder="1%" />
+        </Border>
+
+        <Border BackgroundColor="White" Padding="15" Stroke="#EBEBEB" StrokeThickness="1">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="12"/>
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <Label Text="📝 Реквизиты сторон" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16" />
+                <Label Text="Заимодавец (Паспорт, Адрес, ИНН):" FontSize="12" TextColor="#7F8C8D"/>
+                <Editor Text="{Binding LenderRequisites}" AutoSize="TextChanges" Placeholder="Вставьте реквизиты..." HeightRequest="80"/>
+
+                <Label Text="Заемщик (Паспорт, Адрес, ИНН):" FontSize="12" TextColor="#7F8C8D" Margin="0,10,0,0"/>
+                <Editor Text="{Binding BorrowerRequisites}" AutoSize="TextChanges" Placeholder="Вставьте реквизиты..." HeightRequest="80"/>
             </VerticalStackLayout>
-        </Grid>
+        </Border>
 
-        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
-            <VerticalStackLayout Grid.Column="0">
-                <Label Text="Дата передачи до:" />
-                <Entry Text="{Binding TransferDate}" Placeholder="28.03.2025" />
-            </VerticalStackLayout>
-            <VerticalStackLayout Grid.Column="1">
-                <Label Text="Дата возврата до:" />
-                <Entry Text="{Binding ReturnDate}" Placeholder="28.03.2026" />
-            </VerticalStackLayout>
-        </Grid>
-
-        <Label Text="Способ передачи денег:" />
-        <Picker SelectedItem="{Binding TransferMethod}" Title="Выберите способ">
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>наличными</x:String>
-                    <x:String>безналичным переводом</x:String>
-                </x:Array>
-            </Picker.ItemsSource>
-        </Picker>
-
-        <Label Text="Реквизиты Заимодавца (Паспорт, Адрес, ИНН):" />
-        <Editor Text="{Binding LenderRequisites}" AutoSize="TextChanges" Placeholder="Вставьте реквизиты..." />
-
-        <Label Text="Реквизиты Заемщика (Паспорт, Адрес, ИНН):" />
-        <Editor Text="{Binding BorrowerRequisites}" AutoSize="TextChanges" Placeholder="Вставьте реквизиты..." />
     </VerticalStackLayout>
 </ContentView>

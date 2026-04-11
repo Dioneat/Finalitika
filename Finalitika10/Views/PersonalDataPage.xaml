@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
+             x:DataType="viewmodels:PersonalDataViewModel"
+             x:Class="Finalitika10.Views.PersonalDataPage"
+             Title="Личные данные"
+             BackgroundColor="#F4F6F8">
+
+    <ContentPage.Resources>
+        <Style TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="#F8F9FA"/>
+            <Setter Property="TextColor" Value="#2C3E50"/>
+            <Setter Property="PlaceholderColor" Value="#BDC3C7"/>
+        </Style>
+        <Style TargetType="Editor">
+            <Setter Property="BackgroundColor" Value="#F8F9FA"/>
+            <Setter Property="TextColor" Value="#2C3E50"/>
+            <Setter Property="PlaceholderColor" Value="#BDC3C7"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="*, Auto">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <Label Text="Эти данные хранятся только на вашем устройстве и используются для автозаполнения документов." FontSize="13" TextColor="#7F8C8D" LineBreakMode="WordWrap"/>
+
+                <Border BackgroundColor="White" Padding="15" Stroke="#EBEBEB" StrokeThickness="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="👤 Основная информация" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16" />
+                        <Entry Text="{Binding LastName}" Placeholder="Фамилия" />
+                        <Entry Text="{Binding FirstName}" Placeholder="Имя" />
+                        <Entry Text="{Binding Patronymic}" Placeholder="Отчество (если есть)" />
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                            <Entry Grid.Column="0" Text="{Binding BirthDate}" Placeholder="Дата рождения" />
+                            <Entry Grid.Column="1" Text="{Binding Phone}" Placeholder="Телефон" Keyboard="Telephone"/>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="White" Padding="15" Stroke="#EBEBEB" StrokeThickness="1">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="🔒 Юридические данные" FontAttributes="Bold" TextColor="#2C3E50" FontSize="16" />
+                        <Label Text="Паспортные данные:" FontSize="12" TextColor="#7F8C8D"/>
+                        <Editor Text="{Binding PassportData}" AutoSize="TextChanges" Placeholder="Серия, номер, кем и когда выдан, код подразделения" HeightRequest="80"/>
+
+                        <Label Text="Адрес регистрации:" FontSize="12" TextColor="#7F8C8D" Margin="0,5,0,0"/>
+                        <Entry Text="{Binding Address}" Placeholder="Индекс, Город, Улица..." />
+
+                        <Label Text="ИНН:" FontSize="12" TextColor="#7F8C8D" Margin="0,5,0,0"/>
+                        <Entry Text="{Binding Inn}" Placeholder="12 цифр" Keyboard="Numeric" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Border Grid.Row="1" BackgroundColor="White" Padding="20,15,20,30" Stroke="Transparent">
+            <Border.Shadow>
+                <Shadow Brush="Black" Offset="0,-4" Radius="15" Opacity="0.05"/>
+            </Border.Shadow>
+            <Button Text="Сохранить данные" Command="{Binding SaveCommand}" BackgroundColor="#3498DB" TextColor="White" FontAttributes="Bold" CornerRadius="12" HeightRequest="55"/>
+        </Border>
+    </Grid>
+</ContentPage>

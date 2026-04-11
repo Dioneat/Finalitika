@@ -5,44 +5,78 @@
              x:DataType="viewmodels:DocumentEditorViewModel"
              xmlns:forms="clr-namespace:Finalitika10.Views.DocumentForms"
              x:Class="Finalitika10.Views.DocumentEditorPage"
-             Title="Редактор">
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+             Title="Редактор"
+             BackgroundColor="#F4F6F8">
 
-            <ScrollView>
-                <VerticalStackLayout Padding="20" Spacing="15">
+    <Grid RowDefinitions="Auto, *, Auto">
 
-                    <forms:ResignationFormView IsVisible="{Binding IsResignation}" />
-                    <forms:LoanFormView IsVisible="{Binding IsLoan}" />
-                    <forms:MoneyReceiptFormView IsVisible="{Binding IsReceipt}" />
-                    <forms:ClaimStatementFormView IsVisible="{Binding IsClaim}" />
-                    <forms:PaidLeaveFormView IsVisible="{Binding IsPaidLeave}" />
-                    <forms:UnpaidLeaveFormView IsVisible="{Binding IsUnpaidLeave}" />
-                    <forms:Ndfl3FormView IsVisible="{Binding IsNdfl3}" />
-
-                    <Button Text="Создать" 
-                    Command="{Binding CreateDocumentCommand}" 
-                    Margin="0, 30, 0, 0" 
-                    TextColor="White">
-                        <Button.Triggers>
-                            <Trigger TargetType="Button" Property="IsEnabled" Value="False">
-                                <Setter Property="BackgroundColor" Value="Gray" />
-                            </Trigger>
-                            <Trigger TargetType="Button" Property="IsEnabled" Value="True">
-                                <Setter Property="BackgroundColor" Value="#388E3C" />
-                            </Trigger>
-                        </Button.Triggers>
-                    </Button>
-
-                    <ActivityIndicator IsRunning="{Binding IsGenerating}" 
-                               IsVisible="{Binding IsGenerating}"
-                               Color="#388E3C" 
-                               Margin="0, 15, 0, 0"
-                               HorizontalOptions="Center" />
-
+        <Border Grid.Row="0" BackgroundColor="#2C3E50" Padding="20,15" Stroke="Transparent">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0,0,24,24"/>
+            </Border.StrokeShape>
+            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="{Binding PageTitle}" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="Заполните поля ниже" FontSize="13" TextColor="#BDC3C7"/>
                 </VerticalStackLayout>
-            </ScrollView>
+                <Label Grid.Column="1" Text="{Binding PageIcon}" FontSize="36" VerticalOptions="Center"/>
+            </Grid>
+        </Border>
 
-        </VerticalStackLayout>
-    </ScrollView>
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,15,20,30" Spacing="20">
+
+                <Border BackgroundColor="#E8F8F5" Stroke="#16A085" StrokeThickness="1" Padding="15,10">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AutoFillProfileCommand}"/>
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="🪄" FontSize="18"/>
+                        <Label Text="Заполнить моими данными" TextColor="#16A085" FontAttributes="Bold" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Border>
+
+                <forms:ResignationFormView IsVisible="{Binding IsResignation}" />
+                <forms:LoanFormView IsVisible="{Binding IsLoan}" />
+                <forms:MoneyReceiptFormView IsVisible="{Binding IsReceipt}" />
+                <forms:ClaimStatementFormView IsVisible="{Binding IsClaim}" />
+                <forms:PaidLeaveFormView IsVisible="{Binding IsPaidLeave}" />
+                <forms:UnpaidLeaveFormView IsVisible="{Binding IsUnpaidLeave}" />
+                <forms:Ndfl3FormView IsVisible="{Binding IsNdfl3}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Border Grid.Row="2" BackgroundColor="White" Padding="20,15,20,30" Stroke="Transparent">
+            <Border.Shadow>
+                <Shadow Brush="Black" Offset="0,-4" Radius="15" Opacity="0.05"/>
+            </Border.Shadow>
+            <VerticalStackLayout Spacing="10">
+                <Button Text="Создать PDF-документ" 
+                        Command="{Binding CreateDocumentCommand}" 
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="12"
+                        HeightRequest="55">
+                    <Button.Triggers>
+                        <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                            <Setter Property="BackgroundColor" Value="#BDC3C7" />
+                            <Setter Property="Text" Value="Заполните все поля" />
+                        </Trigger>
+                        <Trigger TargetType="Button" Property="IsEnabled" Value="True">
+                            <Setter Property="BackgroundColor" Value="#27AE60" />
+                        </Trigger>
+                    </Button.Triggers>
+                </Button>
+
+                <ActivityIndicator IsRunning="{Binding IsGenerating}" 
+                                   IsVisible="{Binding IsGenerating}"
+                                   Color="#27AE60" 
+                                   HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
 </ContentPage>
