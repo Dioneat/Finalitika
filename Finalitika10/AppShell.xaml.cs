@@ -37,6 +37,7 @@ namespace Finalitika10
             Routing.RegisterRoute("ProjectDetailPage", typeof(ProjectDetailPage));
             Routing.RegisterRoute("AccountsPage", typeof(Views.AccountsPage));
             Routing.RegisterRoute("CategoriesPage", typeof(Views.CategoriesPage));
+            Routing.RegisterRoute(nameof(AIChatPage), typeof(AIChatPage));
 
 
         }

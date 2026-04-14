@@ -23,39 +23,35 @@ namespace Finalitika10.ViewModels
         private bool _isHandlingPinToggle;
         private bool _isHandlingBiometricToggle;
 
-        [ObservableProperty]
-        private string appVersion = string.Empty;
+        [ObservableProperty] private string appVersion = string.Empty;
+
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsBiometricAvailable))]
         [NotifyPropertyChangedFor(nameof(BiometricSectionOpacity))]
         private bool isPinEnabled;
 
-        [ObservableProperty]
-        private bool isBiometricEnabled;
+        [ObservableProperty] private bool isBiometricEnabled;
+        [ObservableProperty] private bool useDocsTab;
+        [ObservableProperty] private bool privacyMode;
 
-        [ObservableProperty]
-        private bool useDocsTab;
+        // Токен Тинькофф
+        [ObservableProperty] private string token = string.Empty;
+        [ObservableProperty] private bool isSavingToken;
 
-        [ObservableProperty]
-        private bool privacyMode;
-
-        [ObservableProperty]
-        private string token = string.Empty;
-
-        [ObservableProperty]
-        private bool isSavingToken;
+        // Токен ИИ (OpenRouter)
+        [ObservableProperty] private string openRouterToken = string.Empty;
+        [ObservableProperty] private bool isSavingOpenRouterToken;
 
         public bool IsBiometricAvailable => IsPinEnabled;
-
         public double BiometricSectionOpacity => IsPinEnabled ? 1.0 : 0.5;
 
         public SettingsViewModel(
-    IPreferencesService preferencesService,
-    ISecureStorageService secureStorageService,
-    IDialogService dialogService,
-    IHapticService hapticService,
-    IAppInfoService appInfoService,
-    IMessenger messenger)
+            IPreferencesService preferencesService,
+            ISecureStorageService secureStorageService,
+            IDialogService dialogService,
+            IHapticService hapticService,
+            IAppInfoService appInfoService,
+            IMessenger messenger)
         {
             _preferencesService = preferencesService;
             _secureStorageService = secureStorageService;
@@ -67,14 +63,16 @@ namespace Finalitika10.ViewModels
 
         public async Task LoadAsync()
         {
-            if (_isLoaded)
-                return;
+            if (_isLoaded) return;
 
             _isInitializing = true;
 
             try
             {
                 Token = await _secureStorageService.GetAsync(SettingsKeys.TinkoffApiToken) ?? string.Empty;
+
+                // Загружаем токен ИИ. (Используйте SettingsKeys.OpenRouterApiToken, если добавили его в свой класс констант)
+                OpenRouterToken = await _secureStorageService.GetAsync("OpenRouterApiToken") ?? string.Empty;
 
                 UseDocsTab = _preferencesService.GetBool(SettingsKeys.UseDocsTab);
                 PrivacyMode = _preferencesService.GetBool(SettingsKeys.PrivacyMode);
@@ -93,9 +91,7 @@ namespace Finalitika10.ViewModels
 
         partial void OnUseDocsTabChanged(bool value)
         {
-            if (_isInitializing)
-                return;
-
+            if (_isInitializing) return;
             _preferencesService.SetBool(SettingsKeys.UseDocsTab, value);
             _messenger.Send(new TabUpdateMessage());
             _hapticService.PerformClick();
@@ -103,9 +99,7 @@ namespace Finalitika10.ViewModels
 
         partial void OnPrivacyModeChanged(bool value)
         {
-            if (_isInitializing)
-                return;
-
+            if (_isInitializing) return;
             _preferencesService.SetBool(SettingsKeys.PrivacyMode, value);
             _messenger.Send(new PrivacyModeChangedMessage(value));
             _hapticService.PerformClick();
@@ -113,35 +107,26 @@ namespace Finalitika10.ViewModels
 
         partial void OnIsPinEnabledChanged(bool value)
         {
-            if (_isInitializing || _isHandlingPinToggle)
-                return;
-
+            if (_isInitializing || _isHandlingPinToggle) return;
             _ = HandlePinToggleChangedAsync(value);
         }
 
         partial void OnIsBiometricEnabledChanged(bool value)
         {
-            if (_isInitializing || _isHandlingBiometricToggle)
-                return;
-
+            if (_isInitializing || _isHandlingBiometricToggle) return;
             _ = HandleBiometricToggleChangedAsync(value);
         }
 
         private async Task HandlePinToggleChangedAsync(bool isEnabled)
         {
             _isHandlingPinToggle = true;
-
             try
             {
                 _hapticService.PerformClick();
 
                 if (isEnabled)
                 {
-                    string? pin = await _dialogService.PromptAsync(
-                        "ПИН-код",
-                        "Придумайте 4-значный ПИН-код:",
-                        maxLength: 4,
-                        keyboard: Keyboard.Numeric);
+                    string? pin = await _dialogService.PromptAsync("ПИН-код", "Придумайте 4-значный ПИН-код:", maxLength: 4, keyboard: Keyboard.Numeric);
 
                     if (IsValidPin(pin))
                     {
@@ -175,7 +160,6 @@ namespace Finalitika10.ViewModels
         private Task HandleBiometricToggleChangedAsync(bool isEnabled)
         {
             _isHandlingBiometricToggle = true;
-
             try
             {
                 if (!IsPinEnabled)
@@ -186,7 +170,6 @@ namespace Finalitika10.ViewModels
 
                 _preferencesService.SetBool(SettingsKeys.UseBiometrics, isEnabled);
                 _hapticService.PerformClick();
-
                 return Task.CompletedTask;
             }
             finally
@@ -198,8 +181,7 @@ namespace Finalitika10.ViewModels
         [RelayCommand]
         private async Task SaveTokenAsync()
         {
-            if (IsSavingToken)
-                return;
+            if (IsSavingToken) return;
 
             string normalizedToken = Token?.Trim() ?? string.Empty;
 
@@ -222,6 +204,35 @@ namespace Finalitika10.ViewModels
             finally
             {
                 IsSavingToken = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task SaveOpenRouterTokenAsync()
+        {
+            if (IsSavingOpenRouterToken) return;
+
+            string normalizedToken = OpenRouterToken?.Trim() ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(normalizedToken))
+            {
+                await _dialogService.AlertAsync("Ошибка", "Ключ AI Ассистента не может быть пустым");
+                return;
+            }
+
+            IsSavingOpenRouterToken = true;
+
+            try
+            {
+                await _secureStorageService.SetAsync("OpenRouterApiToken", normalizedToken);
+                OpenRouterToken = normalizedToken;
+
+                await _dialogService.AlertAsync("Успех", "Ключ ИИ надёжно зашифрован и сохранён");
+                _hapticService.PerformClick();
+            }
+            finally
+            {
+                IsSavingOpenRouterToken = false;
             }
         }
 

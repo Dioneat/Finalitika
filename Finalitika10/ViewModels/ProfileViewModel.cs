@@ -30,7 +30,6 @@ namespace Finalitika10.ViewModels
         {
             UserJob = _jobProfileService.GetProfile();
 
-            // Загружаем данные
             string lastName = Preferences.Default.Get("User_LastName", "Пользователь");
             string firstName = Preferences.Default.Get("User_FirstName", "");
             UserName = $"{firstName} {lastName}".Trim();
@@ -49,7 +48,6 @@ namespace Finalitika10.ViewModels
             if (!string.IsNullOrWhiteSpace(lastName))
                 initials += lastName[0];
 
-            // Защита от пустых значений, переводим в верхний регистр (например, "ии" -> "ИИ")
             UserInitials = string.IsNullOrWhiteSpace(initials) ? "П" : initials.ToUpper();
         }
 
@@ -58,7 +56,11 @@ namespace Finalitika10.ViewModels
         [RelayCommand] private async Task GoToCurrenciesAsync() => await Shell.Current.GoToAsync("AddCurrencyPage");
         [RelayCommand] private async Task GoToSettingsAsync() => await Shell.Current.GoToAsync("SettingsPage");
         [RelayCommand] private async Task GoToPersonalDataAsync() => await Shell.Current.GoToAsync("PersonalDataPage");
-
+        [RelayCommand]
+        private async Task GoToAiChatAsync()
+        {
+            await Shell.Current.GoToAsync("AIChatPage");
+        }
         [RelayCommand]
         private async Task LogoutAsync()
         {

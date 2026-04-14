@@ -67,6 +67,7 @@ namespace Finalitika10
 
             services.AddSingleton(_ => new FinalitikaDatabase(dbPath));
             services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
+            services.AddSingleton<IAiService, OpenRouterAiService>();
         }
 
         private static void RegisterAppServices(IServiceCollection services)
@@ -140,6 +141,7 @@ namespace Finalitika10
             services.AddTransient<AllNotesViewModel>();
             services.AddTransient<NoteViewModel>();
 
+            services.AddTransient<AIChatViewModel>();
             services.AddTransient<DocumentsViewModel>();
             services.AddTransient<PersonalDataViewModel>();
             services.AddTransient<DocumentEditorViewModel>();
@@ -177,6 +179,7 @@ namespace Finalitika10
             services.AddTransient<NotePage>();
 
 
+            services.AddTransient<AIChatPage>();
             services.AddTransient<DocumentsPage>();
             services.AddTransient<PersonalDataPage>();
             services.AddTransient<DocumentEditorPage>();
