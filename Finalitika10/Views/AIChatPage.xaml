@@ -3,54 +3,91 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:Finalitika10.Models"
              xmlns:viewmodels="clr-namespace:Finalitika10.ViewModels"
+             xmlns:views="clr-namespace:Finalitika10.Views"
              x:DataType="viewmodels:AIChatViewModel"
              x:Class="Finalitika10.Views.AIChatPage"
              Title="Ассистент"
              BackgroundColor="#F4F6F8"
              Shell.NavBarIsVisible="False">
 
-    <Grid RowDefinitions="Auto, *, Auto">
+    <Grid RowDefinitions="Auto,*,Auto">
 
         <Border Grid.Row="0" BackgroundColor="#2C3E50" Padding="15,10" Stroke="Transparent">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="0,0,16,16"/>
             </Border.StrokeShape>
-            <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
-                <Border Grid.Column="0" BackgroundColor="White" WidthRequest="40" HeightRequest="40" Stroke="Transparent" Padding="0">
+
+            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+
+                <Border Grid.Column="0" BackgroundColor="White" WidthRequest="40" HeightRequest="40" Stroke="Transparent">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="20"/>
                     </Border.StrokeShape>
                     <Label Text="🤖" FontSize="24" HorizontalOptions="Center" VerticalOptions="Center"/>
                 </Border>
 
-                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Margin="15,0,0,0">
+                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Margin="15,0,0,0" Spacing="0">
                     <Label Text="ФинАссистент" FontSize="16" FontAttributes="Bold" TextColor="White"/>
-                    <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
-                        <BoxView Color="#27AE60" WidthRequest="8" HeightRequest="8" CornerRadius="4" VerticalOptions="Center"/>
-                        <Label Text="ИИ готов к работе" FontSize="11" TextColor="#BDC3C7" VerticalOptions="Center"/>
-                    </HorizontalStackLayout>
+
+                    <Picker ItemsSource="{Binding AvailableModels}"
+                            ItemDisplayBinding="{Binding DisplayName}"
+                            SelectedItem="{Binding SelectedModel}"
+                            TextColor="#BDC3C7"
+                            TitleColor="#BDC3C7"
+                            Title="Выберите модель"
+                            BackgroundColor="Transparent"
+                            FontSize="12"
+                            HeightRequest="30"
+                            Margin="-5,0,0,0"/>
                 </VerticalStackLayout>
 
-                <ImageButton Grid.Column="2" 
-                             Source="settings_icon.png" 
-                             Command="{Binding OpenSettingsCommand}" 
-                             WidthRequest="44" HeightRequest="44" 
-                             Padding="10" BackgroundColor="Transparent"/>
+                <HorizontalStackLayout Grid.Column="2" Spacing="12" VerticalOptions="Center">
+                    <Label Text="🗑️"
+           FontSize="22"
+           HorizontalOptions="Center"
+           VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ClearHistoryCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Label Text="⚙️"
+           FontSize="24"
+           HorizontalOptions="Center"
+           VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenSettingsCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
             </Grid>
         </Border>
 
-        <CollectionView Grid.Row="1" 
-                        ItemsSource="{Binding Messages}" 
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Messages}"
                         ItemsUpdatingScrollMode="KeepLastItemInView"
+                        SelectionMode="None"
                         Margin="15,20">
 
             <CollectionView.EmptyView>
                 <VerticalStackLayout VerticalOptions="End" Spacing="20" Padding="10">
                     <Label Text="✨" FontSize="48" HorizontalOptions="Center"/>
-                    <Label Text="Спросите меня о ваших финансах!" FontSize="18" FontAttributes="Bold" TextColor="#2C3E50" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
-                    <Label Text="Я могу проанализировать траты, найти скрытые подписки или помочь составить план накоплений." FontSize="14" TextColor="#7F8C8D" HorizontalOptions="Center" HorizontalTextAlignment="Center" Margin="0,0,0,20"/>
+                    <Label Text="Спросите меня о ваших финансах!"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#2C3E50"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                    <Label Text="Я могу проанализировать траты, найти скрытые подписки или помочь составить план накоплений."
+                           FontSize="14"
+                           TextColor="#7F8C8D"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           Margin="0,0,0,20"/>
 
-                    <FlexLayout BindableLayout.ItemsSource="{Binding SuggestedPrompts}" Wrap="Wrap" JustifyContent="Center">
+                    <FlexLayout BindableLayout.ItemsSource="{Binding SuggestedPrompts}"
+                                Wrap="Wrap"
+                                JustifyContent="Center">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
                                 <Border BackgroundColor="White" Stroke="#EBEBEB" StrokeThickness="1" Padding="15,10" Margin="5,5">
@@ -58,7 +95,8 @@
                                         <RoundRectangle CornerRadius="20"/>
                                     </Border.StrokeShape>
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AIChatViewModel}}, Path=SendSuggestedPromptCommand}" CommandParameter="{Binding}"/>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AIChatViewModel}}, Path=SendSuggestedPromptCommand}"
+                                                              CommandParameter="{Binding}"/>
                                     </Border.GestureRecognizers>
                                     <Label Text="{Binding .}" FontSize="13" TextColor="#3498DB" FontAttributes="Bold"/>
                                 </Border>
@@ -72,7 +110,12 @@
                 <DataTemplate x:DataType="models:ChatMessage">
                     <HorizontalStackLayout HorizontalOptions="{Binding MessageAlignment}" Spacing="10" Margin="0,0,0,15">
 
-                        <Border WidthRequest="32" HeightRequest="32" BackgroundColor="White" Stroke="Transparent" VerticalOptions="End" IsVisible="{Binding ShowAiAvatar}">
+                        <Border WidthRequest="32"
+                                HeightRequest="32"
+                                BackgroundColor="White"
+                                Stroke="Transparent"
+                                VerticalOptions="End"
+                                IsVisible="{Binding ShowAiAvatar}">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="16"/>
                             </Border.StrokeShape>
@@ -82,40 +125,68 @@
                             <Label Text="🤖" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
 
-                        <Border BackgroundColor="{Binding BackgroundColor}" 
-                                Padding="15,12" 
-                                Stroke="Transparent" 
+                        <Border BackgroundColor="{Binding BackgroundColor}"
+                                Padding="15,12"
+                                Stroke="Transparent"
                                 MaximumWidthRequest="280">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="{Binding BubbleRadius}"/>
                             </Border.StrokeShape>
                             <Border.Shadow>
-                                <Shadow Brush="Black" Opacity="{Binding ShowAiAvatar, Converter={x:StaticResource BoolToDoubleConverter}}" Offset="0,2" Radius="5"/>
+                                <Shadow Brush="Black" Opacity="0.05" Offset="0,2" Radius="5"/>
                             </Border.Shadow>
 
                             <VerticalStackLayout Spacing="5">
-                                <Label Text="{Binding Text}" FontSize="15" TextColor="{Binding TextColor}" LineBreakMode="WordWrap"/>
-                                <Label Text="{Binding TimeString}" FontSize="10" TextColor="{Binding TimeColor}" HorizontalOptions="End"/>
+                                <Label Text="{Binding HtmlText}"
+                                       TextType="Html"
+                                       FontSize="15"
+                                       TextColor="{Binding TextColor}"
+                                       LineBreakMode="WordWrap"/>
+
+                                <HorizontalStackLayout HorizontalOptions="End" Spacing="15" VerticalOptions="Center">
+                                    <Label Text="📋"
+                                           FontSize="14"
+                                           IsVisible="{Binding ShowAiAvatar}"
+                                           TextColor="#BDC3C7"
+                                           VerticalOptions="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AIChatViewModel}}, Path=CopyMessageCommand}"
+                                                                  CommandParameter="{Binding Text}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
+
+                                    <Label Text="{Binding TimeString}"
+                                           FontSize="10"
+                                           TextColor="{Binding TimeColor}"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
                             </VerticalStackLayout>
                         </Border>
-
                     </HorizontalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
             <CollectionView.Footer>
-                <HorizontalStackLayout Spacing="10" Margin="0,10,0,0" IsVisible="{Binding IsTyping}">
-                    <Border WidthRequest="32" HeightRequest="32" BackgroundColor="White" Stroke="Transparent" VerticalOptions="Center">
+                <HorizontalStackLayout Spacing="10" Margin="0,10,0,10" IsVisible="{Binding IsTyping}">
+                    <Border WidthRequest="32" HeightRequest="32" BackgroundColor="White" Stroke="Transparent" VerticalOptions="End">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="16"/>
                         </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="Black" Opacity="0.05" Offset="0,2" Radius="4"/>
+                        </Border.Shadow>
                         <Label Text="🤖" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
                     </Border>
-                    <Border BackgroundColor="White" Padding="15,10" Stroke="Transparent">
+
+                    <Border BackgroundColor="White" Padding="20,15" Stroke="Transparent">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="20,20,20,4"/>
                         </Border.StrokeShape>
-                        <Label Text="Анализирую данные..." FontSize="13" TextColor="#7F8C8D" FontAttributes="Italic" VerticalOptions="Center"/>
+                        <Border.Shadow>
+                            <Shadow Brush="Black" Opacity="0.05" Offset="0,2" Radius="5"/>
+                        </Border.Shadow>
+
+                        <views:TypingIndicator IsAnimating="{Binding IsTyping}" />
                     </Border>
                 </HorizontalStackLayout>
             </CollectionView.Footer>
@@ -125,30 +196,47 @@
             <Border.Shadow>
                 <Shadow Brush="Black" Offset="0,-2" Radius="10" Opacity="0.05"/>
             </Border.Shadow>
-            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10" VerticalOptions="Center">
 
-                <Border Grid.Column="0" BackgroundColor="#F4F6F8" Stroke="Transparent" Padding="15,0">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10" VerticalOptions="Center">
+                <Border Grid.Column="0" BackgroundColor="Transparent" WidthRequest="44" HeightRequest="44" Stroke="Transparent" VerticalOptions="End">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleVoiceInputCommand}"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="{Binding MicIcon}"
+                           FontSize="22"
+                           TextColor="{Binding MicColor}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Border>
+
+                <Border Grid.Column="1" BackgroundColor="#F4F6F8" Stroke="Transparent" Padding="15,0">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="20"/>
                     </Border.StrokeShape>
-                    <Editor Text="{Binding CurrentMessageText}" 
-                            Placeholder="Спросите о финансах..." 
-                            BackgroundColor="Transparent" 
-                            TextColor="#2C3E50" 
+                    <Editor Text="{Binding CurrentMessageText}"
+                            Placeholder="Спросите о финансах..."
+                            BackgroundColor="Transparent"
+                            TextColor="#2C3E50"
                             PlaceholderColor="#95A5A6"
                             AutoSize="TextChanges"
                             MaximumHeightRequest="100"
                             VerticalOptions="Center"/>
                 </Border>
 
-                <Border Grid.Column="1" BackgroundColor="#3498DB" WidthRequest="44" HeightRequest="44" Stroke="Transparent" VerticalOptions="End">
+                <Border Grid.Column="2" BackgroundColor="#3498DB" WidthRequest="44" HeightRequest="44" Stroke="Transparent" VerticalOptions="End">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="22"/>
                     </Border.StrokeShape>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SendMessageCommand}"/>
                     </Border.GestureRecognizers>
-                    <Label Text="➤" FontSize="20" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" Margin="2,0,0,0"/>
+                    <Label Text="➤"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Margin="2,0,0,0"/>
                 </Border>
             </Grid>
         </Border>

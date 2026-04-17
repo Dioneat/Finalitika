@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Mvvm.Messaging;
 using Finalitika10.Services;
+using Finalitika10.Services.Ai;
 using Finalitika10.Services.AppServices;
 using Finalitika10.Services.DocumentsServices;
 using Finalitika10.Services.Import;
+using Finalitika10.Services.Interfaces;
 using Finalitika10.Services.Interfaces.DocumentsService;
 using Finalitika10.Services.Investments;
 using Finalitika10.Services.PlanServices;
@@ -67,7 +69,7 @@ namespace Finalitika10
 
             services.AddSingleton(_ => new FinalitikaDatabase(dbPath));
             services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
-            services.AddSingleton<IAiService, OpenRouterAiService>();
+            services.AddHttpClient<IAiService, OpenRouterAiService>();
         }
 
         private static void RegisterAppServices(IServiceCollection services)
@@ -77,6 +79,17 @@ namespace Finalitika10
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IHapticService, HapticService>();
             services.AddSingleton<IAppInfoService, AppInfoService>();
+            services.AddSingleton<IAppSpeechToTextService, AppSpeechToTextService>();
+            services.AddSingleton<IMarkdownRenderer, MarkdownRenderer>();
+            services.AddSingleton<IClipboardService, ClipboardService>();
+            services.AddSingleton<IToastService, ToastService>();
+            services.AddSingleton<INavigationService, NavigationService>();
+
+            services.AddSingleton<IAiModelCatalogService, AiModelCatalogService>();
+            services.AddTransient<IAiChatContextBuilder, AiChatContextBuilder>();
+            services.AddTransient<IAiChatOrchestrator, AiChatOrchestrator>();
+            services.AddTransient<IAiChatHistoryRepository, AiChatHistoryRepository>();
+            services.AddSingleton<IAesGcmEncryptionService, AesGcmEncryptionService>();
         }
         private static void RegisterFinanceServices(IServiceCollection services)
         {
@@ -147,6 +160,7 @@ namespace Finalitika10
             services.AddTransient<DocumentEditorViewModel>();
             services.AddTransient<PdfPreviewViewModel>();
             services.AddTransient<EditJobProfileViewModel>();
+
         }
 
         private static void RegisterPages(IServiceCollection services)

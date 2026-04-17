@@ -3,7 +3,11 @@
     public interface IDialogService
     {
         Task AlertAsync(string title, string message, string cancel = "ОК");
-
+        Task<bool> ConfirmAsync(
+            string title,
+            string message,
+            string accept = "ОК",
+            string cancel = "Отмена");
         Task<string?> PromptAsync(
             string title,
             string message,

@@ -9,7 +9,12 @@
 
         public Task AlertAsync(string title, string message, string cancel = "ОК") =>
             CurrentPage.DisplayAlertAsync(title, message, cancel);
-
+        public Task<bool> ConfirmAsync(
+           string title,
+           string message,
+           string accept = "ОК",
+           string cancel = "Отмена") =>
+           CurrentPage.DisplayAlertAsync(title, message, accept, cancel);
         public Task<string?> PromptAsync(
             string title,
             string message,

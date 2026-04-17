@@ -82,29 +82,173 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="12"/>
                 </Border.StrokeShape>
+
                 <VerticalStackLayout Spacing="15">
+
                     <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
                         <Label Text="🤖" FontSize="18" VerticalOptions="Center"/>
-                        <Label Text="Ключ AI Ассистента" FontSize="16" FontAttributes="Bold" TextColor="#2C3E50" VerticalOptions="Center"/>
+                        <Label Text="AI Ассистент" FontSize="16" FontAttributes="Bold" TextColor="#2C3E50" VerticalOptions="Center"/>
                     </HorizontalStackLayout>
 
-                    <Label Text="Необходим для работы чата. Бесплатный токен можно получить на сайте OpenRouter.ai. Хранится только на вашем устройстве." 
-                           FontSize="12" 
-                           TextColor="#7F8C8D" 
-                           LineBreakMode="WordWrap"/>
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Включить AI Ассистента" FontSize="14" TextColor="#2C3E50" FontAttributes="Bold"/>
+                            <Label Text="Разрешить использование ИИ в приложении" FontSize="12" TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" OnColor="#8E44AD" IsToggled="{Binding IsAiAssistantEnabled}"/>
+                    </Grid>
 
-                    <Entry Text="{Binding OpenRouterToken}" 
-                           BackgroundColor="#F4F6F8" 
-                           TextColor="Black" 
-                           Placeholder="sk-or-v1-..." 
-                           IsPassword="True"/>
+                    <Label Text="Ключ OpenRouter хранится только на вашем устройстве."
+               FontSize="12"
+               TextColor="#7F8C8D"
+               LineBreakMode="WordWrap"/>
 
-                    <Button Text="Сохранить ключ ИИ" 
-                            Command="{Binding SaveOpenRouterTokenCommand}" 
-                            BackgroundColor="#8E44AD" 
-                            TextColor="White" 
-                            CornerRadius="8" 
-                            HeightRequest="45"/>
+                    <Entry Text="{Binding OpenRouterToken}"
+               BackgroundColor="#F4F6F8"
+               TextColor="Black"
+               Placeholder="sk-or-v1-..."
+               IsPassword="True"/>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button Grid.Column="0"
+                    Text="Сохранить ключ"
+                    Command="{Binding SaveOpenRouterTokenCommand}"
+                    BackgroundColor="#8E44AD"
+                    TextColor="White"
+                    CornerRadius="8"/>
+
+                        <Button Grid.Column="1"
+                    Text="Проверить"
+                    Command="{Binding CheckOpenRouterConnectionCommand}"
+                    BackgroundColor="#F4F6F8"
+                    TextColor="#2C3E50"
+                    CornerRadius="8"/>
+                    
+                    </Grid>
+                    <Label Text="{Binding OpenRouterConnectionStatus}"
+                        FontSize="12"
+                        TextColor="#7F8C8D"
+                        LineBreakMode="WordWrap"/>
+                    <BoxView HeightRequest="1" Color="#F4F6F8" Margin="0,5"/>
+
+                    <Label Text="ПОДКЛЮЧЕНИЕ" FontSize="12" FontAttributes="Bold" TextColor="#7F8C8D"/>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Base URL" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding OpenRouterBaseUrl}"
+                   BackgroundColor="#F4F6F8"
+                   TextColor="Black"
+                   Placeholder="https://openrouter.ai/api/v1"/>
+
+                        <Label Text="Модель по умолчанию" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding DefaultAiModel}"
+                   BackgroundColor="#F4F6F8"
+                   TextColor="Black"
+                   Placeholder="meta-llama/llama-3.3-70b-instruct:free"/>
+
+                        <Label Text="Fallback-модель" FontSize="12" TextColor="#7F8C8D"/>
+                        <Entry Text="{Binding FallbackAiModel}"
+                   BackgroundColor="#F4F6F8"
+                   TextColor="Black"
+                   Placeholder="google/gemma-3-27b-it:free"/>
+                    </VerticalStackLayout>
+
+                    <BoxView HeightRequest="1" Color="#F4F6F8" Margin="0,5"/>
+
+                    <Label Text="КАКИЕ ДАННЫЕ ВИДИТ ИИ" FontSize="12" FontAttributes="Bold" TextColor="#7F8C8D"/>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Баланс счетов" FontSize="14" TextColor="#2C3E50" FontAttributes="Bold"/>
+                            <Label Text="Общая сумма доступных средств" FontSize="12" TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" OnColor="#8E44AD" IsToggled="{Binding ShareAiBalances}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Сводка трат" FontSize="14" TextColor="#2C3E50" FontAttributes="Bold"/>
+                            <Label Text="Категории и суммы без детализации" FontSize="12" TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" OnColor="#8E44AD" IsToggled="{Binding ShareAiCategories}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Детализация операций" FontSize="14" TextColor="#2C3E50" FontAttributes="Bold"/>
+                            <Label Text="Конкретные магазины, покупки и комментарии" FontSize="12" TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" OnColor="#8E44AD" IsToggled="{Binding ShareAiTransactions}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Предстоящие платежи" FontSize="14" TextColor="#2C3E50" FontAttributes="Bold"/>
+                            <Label Text="Напоминания и регулярные списания" FontSize="12" TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" OnColor="#8E44AD" IsToggled="{Binding ShareAiPayments}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Финансовые цели и проекты" FontSize="14" TextColor="#2C3E50" FontAttributes="Bold"/>
+                            <Label Text="Прогресс накоплений и активные цели" FontSize="12" TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" OnColor="#8E44AD" IsToggled="{Binding ShareAiPlans}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Инвестиционный портфель" FontSize="14" TextColor="#2C3E50" FontAttributes="Bold"/>
+                            <Label Text="Сводка по активам и доходности" FontSize="12" TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" OnColor="#8E44AD" IsToggled="{Binding ShareAiInvestments}"/>
+                    </Grid>
+
+                    <BoxView HeightRequest="1" Color="#F4F6F8" Margin="0,5"/>
+
+                    <Label Text="ПРИВАТНОСТЬ И ХРАНЕНИЕ" FontSize="12" FontAttributes="Bold" TextColor="#7F8C8D"/>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Хранить историю AI локально" FontSize="14" TextColor="#2C3E50" FontAttributes="Bold"/>
+                            <Label Text="История сохраняется только на этом устройстве" FontSize="12" TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" OnColor="#8E44AD" IsToggled="{Binding StoreAiHistoryLocally}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Защищать AI чат PIN/биометрией" FontSize="14" TextColor="#2C3E50" FontAttributes="Bold"/>
+                            <Label Text="Требовать дополнительную защиту перед открытием чата" FontSize="12" TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" OnColor="#8E44AD" IsToggled="{Binding ProtectAiChatWithBiometrics}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label Text="Отправлять только агрегированные данные" FontSize="14" TextColor="#2C3E50" FontAttributes="Bold"/>
+                            <Label Text="Без лишней детализации там, где это возможно" FontSize="12" TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" OnColor="#8E44AD" IsToggled="{Binding SendOnlyAggregatedAiData}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button Grid.Column="0"
+                    Text="Очистить историю AI"
+                    Command="{Binding ClearAiHistoryCommand}"
+                    BackgroundColor="#FDEDEC"
+                    TextColor="#C0392B"
+                    CornerRadius="8"/>
+
+                        <Button Grid.Column="1"
+                    Text="Удалить AI ключ"
+                    Command="{Binding ClearOpenRouterTokenCommand}"
+                    BackgroundColor="#FDEDEC"
+                    TextColor="#C0392B"
+                    CornerRadius="8"/>
+                    </Grid>
+
                 </VerticalStackLayout>
             </Border>
 

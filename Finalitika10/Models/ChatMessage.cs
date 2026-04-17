@@ -1,31 +1,35 @@
-﻿using Microsoft.Maui;
-using System;
+﻿using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 
 namespace Finalitika10.Models
 {
-    public class ChatMessage
+    public sealed class ChatMessage
     {
-        public string Text { get; set; }
-        public bool IsUser { get; set; }
-        public DateTime Timestamp { get; set; }
+        public string Id { get; init; } = Guid.NewGuid().ToString();
+        public bool IsUser { get; init; }
+        public string Text { get; init; } = string.Empty;
+        public string HtmlText { get; init; } = string.Empty;
+        public DateTime Timestamp { get; init; }
 
-        public string TimeString => Timestamp.ToString("HH:mm");
-
-        // --- ВЫЧИСЛЯЕМЫЕ СВОЙСТВА ДЛЯ КРАСИВОГО XAML ---
-
-        // Выравнивание: Юзер справа, ИИ слева
         public LayoutOptions MessageAlignment => IsUser ? LayoutOptions.End : LayoutOptions.Start;
+        public bool ShowAiAvatar => !IsUser;
 
-        // Цвета пузырей
-        public string BackgroundColor => IsUser ? "#3498DB" : "#FFFFFF"; // Синий для юзера, белый для ИИ
-        public string TextColor => IsUser ? "#FFFFFF" : "#2C3E50";
-        public string TimeColor => IsUser ? "#A9CCE3" : "#BDC3C7";
+        public Color BackgroundColor => IsUser
+            ? Color.FromArgb("#3498DB")
+            : Colors.White;
 
-        // Хвостики пузырей: Острый угол внизу справа для юзера, внизу слева для ИИ
+        public Color TextColor => IsUser
+            ? Colors.White
+            : Color.FromArgb("#2C3E50");
+
+        public Color TimeColor => IsUser
+            ? Color.FromArgb("#D6EAF8")
+            : Color.FromArgb("#95A5A6");
+
         public CornerRadius BubbleRadius => IsUser
             ? new CornerRadius(20, 20, 4, 20)
             : new CornerRadius(20, 20, 20, 4);
 
-        public bool ShowAiAvatar => !IsUser;
+        public string TimeString => Timestamp.ToString("HH:mm");
     }
 }
