@@ -12,6 +12,7 @@ namespace Finalitika10.ViewModels.PlanViewModels
     {
         private readonly IProjectService _projectService;
         private string? _projectId;
+        private readonly IProjectExcelExportService _projectExcelExportService;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsExpensesMode))]
@@ -41,9 +42,12 @@ namespace Finalitika10.ViewModels.PlanViewModels
             }
         }
 
-        public ProjectDetailViewModel(IProjectService projectService)
+        public ProjectDetailViewModel(
+    IProjectService projectService,
+    IProjectExcelExportService projectExcelExportService)
         {
             _projectService = projectService;
+            _projectExcelExportService = projectExcelExportService;
         }
 
         private void LoadProject(string id)
@@ -58,7 +62,39 @@ namespace Finalitika10.ViewModels.PlanViewModels
             Project = loadedProject;
             RecalculateViewState();
         }
+        [RelayCommand]
+        private async Task ExportToExcelAsync()
+        {
+            if (Project is null || string.IsNullOrWhiteSpace(Project.Id))
+            {
+                await GetCurrentPage().DisplayAlertAsync("Ошибка", "Проект не найден.", "ОК");
+                return;
+            }
 
+            try
+            {
+                var result = await _projectExcelExportService.ExportAsync(Project);
+
+                if (!result.IsSuccess)
+                {
+                    await GetCurrentPage().DisplayAlertAsync("Ошибка экспорта", result.Message, "ОК");
+                    return;
+                }
+
+                string message = string.IsNullOrWhiteSpace(result.FilePath)
+                    ? result.Message
+                    : $"{result.Message}\n\nФайл:\n{result.FilePath}";
+
+                await GetCurrentPage().DisplayAlertAsync("Excel", message, "ОК");
+            }
+            catch (Exception ex)
+            {
+                await GetCurrentPage().DisplayAlertAsync(
+                    "Ошибка экспорта",
+                    $"Не удалось выгрузить проект в Excel: {ex.Message}",
+                    "ОК");
+            }
+        }
         private void RecalculateViewState()
         {
             if (Project is null)

@@ -105,6 +105,7 @@ namespace Finalitika10
         {
             services.AddSingleton<IProjectService, ProjectService>();
             services.AddSingleton<IPaymentService, PaymentService>();
+            services.AddTransient<IProjectExcelExportService, ProjectExcelExportService>();
         }
 
         private static void RegisterInvestmentServices(IServiceCollection services)
@@ -199,6 +200,9 @@ namespace Finalitika10
             services.AddTransient<DocumentEditorPage>();
             services.AddTransient<PdfPreviewPage>();
             services.AddTransient<EditJobProfilePage>();
+
+            services.AddTransient<OnboardingViewModel>();
+            services.AddTransient<OnboardingPage>();
         }
 
         private static void ConfigureLogging(MauiAppBuilder builder)

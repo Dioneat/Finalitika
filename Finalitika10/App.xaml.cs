@@ -1,18 +1,28 @@
-﻿using Finalitika10.Views; 
+﻿using Finalitika10.Views;
 
 namespace Finalitika10
 {
     public partial class App : Application
     {
-        public App()
+        private readonly OnboardingPage _onboardingPage;
+
+        public App(OnboardingPage onboardingPage)
         {
             InitializeComponent();
+            _onboardingPage = onboardingPage;
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            var window = new Window(new AppShell());
+            // 1. Проверяем, прошел ли пользователь первоначальную настройку
+            bool isOnboardingComplete = Preferences.Default.Get("IsOnboardingComplete", false);
 
+            // 2. В зависимости от статуса выбираем стартовую страницу
+            Page rootPage = isOnboardingComplete ? new AppShell() : _onboardingPage;
+
+            var window = new Window(rootPage);
+
+            // 3. Подписываемся на события жизненного цикла
             window.Created += (s, e) => ShowLockScreenIfNeeded();
             window.Resumed += (s, e) => ShowLockScreenIfNeeded();
 
@@ -21,6 +31,11 @@ namespace Finalitika10
 
         private void ShowLockScreenIfNeeded()
         {
+            bool isOnboardingComplete = Preferences.Default.Get("IsOnboardingComplete", false);
+            if (!isOnboardingComplete)
+                return;
+
+            // Проверяем наличие ПИН-кода
             bool hasPin = Preferences.Default.Get("HasPinCode", false);
 
             if (hasPin && Application.Current?.MainPage != null)
